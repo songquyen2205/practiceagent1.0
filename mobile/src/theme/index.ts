@@ -1,42 +1,50 @@
 export const theme = {
   colors: {
-    // Nền giấy vintage & hoài niệm tươi sáng
-    background: '#FAF6F0',        // Màu giấy ngà ấm
-    cardBackground: '#FFFFFF',    // Màu thẻ trắng sữa
-    cardBorder: '#E8DFD3',        // Viền thẻ màu giấy thủ công
-    pinTape: '#F3D5B5',           // Màu băng keo washi trang trí
+    // Modern iOS / Clean Canvas
+    background: '#F8F9FA',        // Gray 50
+    cardBackground: '#FFFFFF',    // Pure White
+    cardBorder: '#E5E7EB',        // Gray 200
+    cardBorderHover: '#D1D5DB',   // Gray 300
     
-    // Tông chữ
-    textPrimary: '#2D2824',       // Nâu đen ấm, êm mắt cho thầy cô
-    textSecondary: '#6B6055',     // Nâu xám mềm
-    textMuted: '#9E9489',         // Ghi xám nhẹ
+    // Text Hierarchy
+    textPrimary: '#111827',       // Gray 900
+    textSecondary: '#4B5563',     // Gray 600
+    textMuted: '#9CA3AF',         // Gray 400
     
-    // Màu nhấn (Accents) hoài niệm mà fresh
-    primary: '#4A6B53',           // Xanh rêu phấn / Bảng đen xưa dịu mát
-    primaryLight: '#E8F0EA',      // Nền xanh pastel
-    accentWarm: '#D87A56',        // Cam đất / Màu gạch nung học trò
-    accentYellow: '#EBB44D',      // Vàng hoa điệp / nắng sân trường
-    accentBlue: '#4F7C96',        // Xanh mực máy
+    // Primary & Accents
+    primary: '#1D4ED8',           // Blue 700
+    primaryLight: '#EFF6FF',      // Blue 50
+    primaryBorder: '#BFDBFE',     // Blue 200
+    accentWarm: '#D97706',        // Amber 600
+    accentBlue: '#2563EB',        // Blue 600
+    accentYellow: '#F59E0B',      // Amber 500
     
-    // Trạng thái
-    badgeCurrent: '#E1EFE6',      // Đang công tác / đang học
-    badgeCurrentText: '#2B6140',
-    divider: '#EFE9DE',
-    surfaceSubtle: '#F4EFEA',
+    accentEmerald: '#059669',     // Emerald 600
+    accentEmeraldBg: '#ECFDF5',   // Emerald 50
+    accentAmber: '#D97706',       // Amber 600
+    accentAmberBg: '#FFFBEB',     // Amber 50
+    accentRose: '#E11D48',        // Rose 600
+    
+    // Status & Utility
+    badgeCurrent: '#ECFDF5',
+    badgeCurrentText: '#065F46',
+    divider: '#F3F4F6',           // Gray 100
+    surfaceSubtle: '#F3F4F6',     // Gray 100
+    inputBg: '#FFFFFF',
+    inputBorder: '#D1D5DB',
   },
   typography: {
     fontFamily: {
-      serif: 'Georgia',
       sans: 'System',
     },
     sizes: {
-      hero: 24,
+      hero: 26,
       title: 20,
-      heading: 17,
-      body: 15,
-      caption: 13,
+      heading: 16,
+      body: 14,
+      caption: 12,
       small: 11,
-    }
+    },
   },
   spacing: {
     xs: 4,
@@ -45,27 +53,14 @@ export const theme = {
     lg: 16,
     xl: 20,
     xxl: 24,
+    xxxl: 32,
   },
   borderRadius: {
+    xs: 4,
     sm: 6,
-    md: 10,
-    lg: 16,
-    pill: 999,
+    md: 8,
+    lg: 12,
+    xl: 16,
+    pill: 9999,
   },
-  shadows: {
-    card: {
-      shadowColor: '#4A3E31',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.07,
-      shadowRadius: 5,
-      elevation: 2,
-    },
-    hover: {
-      shadowColor: '#4A3E31',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.12,
-      shadowRadius: 8,
-      elevation: 4,
-    }
-  }
 };

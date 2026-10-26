@@ -12,14 +12,14 @@
 | Task ID | Phase | Role | Mục Tiêu & Công Việc | Trạng Thái | Link / Evidence |
 |---|---|---|---|---|---|
 | **T-001** | G1 | Senior BA | Khảo sát nghiệp vụ, phân tích SRS, lập quyết định kiến trúc Offline First. (Skip SOW) | **Done** | [SRS.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/SRS.md), [DECISIONS.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/DECISIONS.md) |
-| **T-002** | G2 | Tech Lead | Kiến trúc Expo React Native, TypeScript, thiết kế 4 feature specs F001 - F004. | **Done** | [features/](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/features/) |
-| **T-003** | G3 | FE Developer | Lập trình hoàn chỉnh app, Nostalgic theme, tích hợp 24 bạn CT1619, build dist. | **Done** | `mobile/src/`, `mobile/dist/` |
-| **T-004** | G3/G5 | QC Lead | Kiểm thử luồng, chụp 4 ảnh màn hình UI, xuất bản GitHub Pages, lập HANDOVER.md. | **Done** | [HANDOVER.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/HANDOVER.md), [GitHub Pages](https://songquyen2205.github.io/practiceagent1.0/) |
+| **T-002** | G2 | Tech Lead / Designer | Thiết kế lại Design System theo phong cách Modern Clean / Notion (DEC-002 v4.3), cập nhật 4 specs F001 - F004. | **In Progress** | [DECISIONS.md#dec-002](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/DECISIONS.md) |
+| **T-003** | G3 | FE Developer | Lập trình lại Theme, Components (MemberCard, Timeline, Tabs), loại bỏ emoji/washi tape, test tsc đạt 0 lỗi. | **Ready for Dev** | `mobile/src/` |
+| **T-004** | G3/G5 | QC Lead | Kiểm thử runtime cục bộ (Localhost), xác minh không lỗi render, đồng bộ Showcase Index, xuất bản và lập HANDOVER. | **Planned** | [HANDOVER.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/HANDOVER.md) |
 
 ---
 
 ## 2. Checkpoint Hiện Hành (Current Checkpoint)
-- **Active Role**: Senior BA / Lead Orchestrator
-- **Files In Progress**: Không (đã hoàn tất chu trình và đóng gói).
-- **Blockers**: Không có blocker kỹ thuật.
-- **Next Action**: Trình hồ sơ bàn giao (`HANDOVER.md`) và sản phẩm hoàn chỉnh để Người Dùng BA nghiệm thu cuối (Final Check).
+- **Active Role**: Designer / Frontend Developer
+- **Task in progress**: `T-002` -> `T-003` (Thực thi thiết kế lại giao diện Modern Clean theo DEC-002)
+- **Impact & Stale Artifacts**: `index.html` (Showcase), `HANDOVER.md`, `mobile/src/theme/`, `mobile/dist/`
+- **Next Action**: Refactor giao diện trong `mobile/src/`, biên dịch và xác minh runtime trên localhost trước khi push.
