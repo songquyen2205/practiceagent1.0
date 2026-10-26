@@ -23,6 +23,10 @@
   - Lưu trữ toàn bộ dữ liệu cục bộ bằng `@react-native-async-storage/async-storage` (hoặc local fallback state).
   - Tích hợp sẵn dữ liệu mẫu (mock data phong phú) thể hiện đúng tinh thần lớp học thân thương để thầy cô và các bạn mở lên là có thể xem được ngay.
   - Tính năng Xuất dữ liệu (Export JSON) và Nhập dữ liệu (Import JSON) để gửi cập nhật qua Zalo/Facebook/AirDrop.
+- **REQ-005 (Đăng Nhập & Định Danh Thành Viên - Authentication & Role Claim)**:
+  - Màn hình Đăng nhập (Sign In): Yêu cầu nhập **Username** (hoặc chọn tài khoản/email thành viên) và **Mật khẩu (Password)**.
+  - Cơ chế xác thực cục bộ (In-App Local Auth): Mặc định hỗ trợ mật khẩu chung khởi tạo của lớp (ví dụ: `ct1619` hoặc mã PIN cá nhân) để kích hoạt phiên đăng nhập.
+  - Gắn phiên đăng nhập vào tài khoản thành viên tương ứng, cho phép chỉnh sửa đúng hồ sơ của mình và Đăng xuất (Sign Out) khi muốn đổi tài khoản.
 
 ## 3. Yêu cầu phi chức năng (NFR) & Thiết kế UI/UX
 - **NFR-001 (Nền tảng)**: React Native (Expo SDK), TypeScript 100%, chạy mượt trên Android, iOS và Expo Web.

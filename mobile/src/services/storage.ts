@@ -13,6 +13,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_teacher',
       name: 'Thầy Chủ Nhiệm (Teacher)',
+      username: 'thaychunhiemteacher',
+      password: '123456',
       nickname: 'Người Thầy Kính Yêu 🌸',
       avatarText: '👨‍🏫',
       avatarBgColor: '#FDE2D1',
@@ -59,6 +61,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_10',
       name: 'Song Quyên',
+      username: 'songquyen',
+      password: '123456',
       nickname: 'Quyên Lớp Trưởng 🌸',
       avatarText: '👩‍💼',
       avatarBgColor: '#E0E7FF',
@@ -96,6 +100,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_01',
       name: 'Minh Quân',
+      username: 'minhquan',
+      password: '123456',
       nickname: 'Quân Cận 🤓',
       avatarText: '🧑‍💻',
       avatarBgColor: '#D8E8F5',
@@ -116,6 +122,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_02',
       name: 'Khánh Hưng',
+      username: 'khanhhung',
+      password: '123456',
       nickname: 'Hưng Đô La 💵',
       avatarText: '👨‍💼',
       avatarBgColor: '#FEF3C7',
@@ -134,6 +142,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_03',
       name: 'Trung Quân',
+      username: 'trungquan',
+      password: '123456',
       nickname: 'Quân Kính Cận 👓',
       avatarText: '👨‍🔬',
       avatarBgColor: '#E2E8F0',
@@ -152,6 +162,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_04',
       name: 'Thu Ngân',
+      username: 'thungan',
+      password: '123456',
       nickname: 'Ngân Thủ Quỹ 👛',
       avatarText: '👩‍💼',
       avatarBgColor: '#FCE7F3',
@@ -170,6 +182,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_05',
       name: 'Bảo Thiên',
+      username: 'baothien',
+      password: '123456',
       nickname: 'Thiên Guitar 🎸',
       avatarText: '🧑‍🎤',
       avatarBgColor: '#FEE2E2',
@@ -188,6 +202,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_06',
       name: 'Anh Huynh',
+      username: 'anhhuynh',
+      password: '123456',
       nickname: 'Huynh Tỉ Mỉ 📐',
       avatarText: '👨‍🎨',
       avatarBgColor: '#ECFCCB',
@@ -206,6 +222,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_07',
       name: 'Bích Ngọc',
+      username: 'bichngoc',
+      password: '123456',
       nickname: 'Ngọc Dược Sĩ 💊',
       avatarText: '👩‍⚕️',
       avatarBgColor: '#CCFBF1',
@@ -224,6 +242,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_08',
       name: 'Bảo Trâm',
+      username: 'baotram',
+      password: '123456',
       nickname: 'Trâm Hát Hay 🎤',
       avatarText: '👩‍🎤',
       avatarBgColor: '#FFE4E6',
@@ -242,6 +262,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_09',
       name: 'Duy Khang',
+      username: 'duykhang',
+      password: '123456',
       nickname: 'Khang Lực Sĩ 🏋️',
       avatarText: '🏃‍♂️',
       avatarBgColor: '#E0F2FE',
@@ -260,6 +282,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_11',
       name: 'Xuân Thuỳ',
+      username: 'xuanthuy',
+      password: '123456',
       nickname: 'Thuỳ Dịu Dàng 🌸',
       avatarText: '👩‍🏫',
       avatarBgColor: '#FDF2F8',
@@ -278,6 +302,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_12',
       name: 'Thu Hằng',
+      username: 'thuhang',
+      password: '123456',
       nickname: 'Hằng Bánh Mì 🥐',
       avatarText: '👩‍🍳',
       avatarBgColor: '#FEF9C3',
@@ -296,6 +322,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_13',
       name: 'Địch Long',
+      username: 'ichlong',
+      password: '123456',
       nickname: 'Long Tướng Quân ⚡',
       avatarText: '👨‍✈️',
       avatarBgColor: '#DBEAFE',
@@ -314,6 +342,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_14',
       name: 'Cao Cường',
+      username: 'caocuong',
+      password: '123456',
       nickname: 'Cường IT 💻',
       avatarText: '👨‍💻',
       avatarBgColor: '#E0E7FF',
@@ -332,6 +362,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_15',
       name: 'Đức Tâm',
+      username: 'uctam',
+      password: '123456',
       nickname: 'Tâm Bác Sĩ 🩺',
       avatarText: '👨‍⚕️',
       avatarBgColor: '#CFFAFE',
@@ -350,6 +382,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_16',
       name: 'Sơn Bách',
+      username: 'sonbach',
+      password: '123456',
       nickname: 'Bách Bách Khoa ⚙️',
       avatarText: '🧑‍🔧',
       avatarBgColor: '#FED7AA',
@@ -368,6 +402,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_17',
       name: 'Minh Bách',
+      username: 'minhbach',
+      password: '123456',
       nickname: 'Bách Luật Sư ⚖️',
       avatarText: '👨‍⚖️',
       avatarBgColor: '#E2E8F0',
@@ -386,6 +422,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_18',
       name: 'Thiên Sơn',
+      username: 'thienson',
+      password: '123456',
       nickname: 'Sơn Đồi Núi 🏕️',
       avatarText: '🧗‍♂️',
       avatarBgColor: '#D1FAE5',
@@ -404,6 +442,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_19',
       name: 'Kim Phát',
+      username: 'kimphat',
+      password: '123456',
       nickname: 'Phát Tài Phát Lộc 💰',
       avatarText: '🧑‍💼',
       avatarBgColor: '#FEF08A',
@@ -422,6 +462,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_20',
       name: 'Minh Thư',
+      username: 'minhthu',
+      password: '123456',
       nickname: 'Thư Điệu Đà 💄',
       avatarText: '👩‍💼',
       avatarBgColor: '#FBCFE8',
@@ -440,6 +482,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_21',
       name: 'Hải Yến',
+      username: 'haiyen',
+      password: '123456',
       nickname: 'Yến Bay Xa ✈️',
       avatarText: '👩‍💼',
       avatarBgColor: '#BAE6FD',
@@ -458,6 +502,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_22',
       name: 'Song Nguyên',
+      username: 'songnguyen',
+      password: '123456',
       nickname: 'Nguyên Vui Vẻ 😄',
       avatarText: '🧑‍💻',
       avatarBgColor: '#DDD6FE',
@@ -476,6 +522,8 @@ export const INITIAL_DATA: LuuButData = {
     {
       id: 'ct_23',
       name: 'Minh Tú',
+      username: 'minhtu',
+      password: '123456',
       nickname: 'Tú Đạt Chuẩn 🎯',
       avatarText: '👨‍💼',
       avatarBgColor: '#A7F3D0',

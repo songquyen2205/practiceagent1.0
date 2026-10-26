@@ -15,6 +15,8 @@ export interface Member {
   id: string;
   name: string;
   nickname?: string;
+  username?: string;
+  password?: string;
   avatarText: string;     // Chữ viết tắt hoặc Emoji
   avatarBgColor: string;  // Màu nền ấm áp
   role: RoleType;         // Thầy cô hoặc Học sinh
@@ -39,6 +41,7 @@ export interface ClassEvent {
   organizerName: string;
   attendeesCount: number;
   isRegistered?: boolean;
+  isJoined?: boolean;
   category: 'reunion' | 'visit_teacher' | 'anniversary' | 'informal';
   createdAt: string;
 }

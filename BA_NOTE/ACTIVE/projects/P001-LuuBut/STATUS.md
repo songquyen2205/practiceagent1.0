@@ -15,6 +15,7 @@
 | **T-002** | G2 | Tech Lead / Designer | Thiết kế lại Design System theo phong cách Modern Clean / Notion (DEC-002 v4.3), cập nhật 4 specs F001 - F004. | **Done** | [DECISIONS.md#dec-002](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/DECISIONS.md) |
 | **T-003** | G3 | FE Developer | Lập trình lại Theme, Components (MemberCard, Timeline, Tabs), loại bỏ emoji/washi tape, test tsc đạt 0 lỗi. | **Done** | `mobile/src/`, `mobile/dist/` (Bundle: `e8bd299670e88fc292b404038f282c6a`) |
 | **T-004** | G3/G5 | QC Lead | Kiểm thử luồng, xác minh runtime tải live thành công HTTP 200, đồng bộ website Showcase Index, cập nhật HANDOVER. | **Done** | [HANDOVER.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/HANDOVER.md), [Live App](https://songquyen2205.github.io/practiceagent1.0/app/index.html) |
+| **T-005** | G1-G3 | Full Team | Bổ sung REQ-005 & F005: Form Đăng nhập Username/Password, xác thực danh tính in-app, hỗ trợ đăng xuất. | **Done** | [F005-user-auth.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/features/F005-user-auth.md), `mobile/src/screens/LoginScreen.tsx` |
 
 ---
 

@@ -13,7 +13,8 @@
   - [x] Khảo sát nghiệp vụ, phân tích SRS chuẩn tham chiếu ISO 29148 (`SRS.md`).
   - [x] Ra quyết định kiến trúc: In-App Offline First với AsyncStorage (`DEC-001`).
   - [x] Chuyển đổi định hướng giao diện từ Retro Slop sang Modern Clean iOS / Notion Canvas (`DEC-002`).
-  - [x] Lập 4 đặc tả tính năng chi tiết: `F001` (Profile Timeline), `F002` (Danh bạ), `F003` (Bảng tin sự kiện), `F004` (Lưu trữ in-app & Sync).
+  - [x] Lập 5 đặc tả tính năng chi tiết: `F001` (Profile Timeline), `F002` (Danh bạ), `F003` (Bảng tin sự kiện), `F004` (Lưu trữ in-app & Sync), `F005` (Đăng nhập Username/Password & Định danh).
+  - [x] Thiết kế màn hình LoginScreen hỗ trợ xác thực bằng Username và Password (mặc định: `123456` hoặc `ct1619`), có chế độ chọn nhanh tài khoản.
   - [x] Lập trình hoàn chỉnh Expo React Native SDK 58 (TypeScript 100%).
   - [x] Nạp chuẩn xác bộ dữ liệu 24 thành viên lớp CT1619.
   - [x] Build web bundle tương thích và xuất bản trực tiếp lên GitHub Pages.

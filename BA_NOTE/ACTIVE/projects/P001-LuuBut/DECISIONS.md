@@ -20,11 +20,16 @@
 ### DEC-002: Chuyển Đổi Định Hướng Giao Diện Sang Modern Clean / Notion-like (v4.3)
 - **Status**: Confirmed by User (2026-10-26)
 - **Scope**: Toàn bộ hệ thống Mobile & Web UI/UX
-- **Bối cảnh**: Người dùng phản hồi định hướng giao diện giả lập hoài niệm (nền giấy ngả vàng, washi-tape, emoji trang trí) nhìn bị "slop / AI generic" và chưa đạt tiêu chuẩn chuyên nghiệp. Yêu cầu chuyển hẳn sang phong cách **Hiện đại, Tối giản, Clean Mobile / Notion-like**.
+- **Bối cảnh**: Người dùng phản hồi định hướng giao diện giả lập hoài niệm (nền giấy ngả vàng, washi-tape, emoji trang trí) nhìn bị "slop / AI generic". Chuyển sang phong cách Hiện đại, Tối giản, Clean Mobile / Notion-like.
+
+---
+
+### DEC-003: Luồng Đăng Nhập & Định Danh Thành Viên (In-App Auth)
+- **Status**: Confirmed by User (2026-10-27)
+- **Scope**: User Authentication & Session Management
+- **Bối cảnh**: Người dùng phát hiện app thiếu luồng đăng nhập nhiều user, khiến ai mở lên cũng bị gán cứng vào một profile. Yêu cầu có form nhập Username & Password để vào app.
 - **Giải pháp**:
-  - **Màu sắc & Nền**: Thay thế nền giấy ngả vàng bằng Neutral Canvas (`#F8F9FA`), thẻ Pure White (`#FFFFFF`) với viền mảnh 1px (`#E5E7EB`).
-  - **Typography & Iconography**: Thay toàn bộ emoji nhồi nhét ở Avatar và tiêu đề bằng **Monogram Initials** tối giản, thanh lịch (`SQ`, `GV`...) và typography chuẩn iOS/System Sans với độ tương phản cao (`#111827`).
-  - **Layout & Điều hướng**: Áp dụng Segmented Control chuẩn mực và Bottom Tab Bar tối giản.
-- **Tiêu chuẩn kiểm soát chất lượng (Quality Gate)**:
-  - Phải kiểm thử runtime cục bộ (Localhost) trước khi xuất bản.
-  - Phải đồng bộ toàn bộ tài liệu tổng hợp (`INDEX.md`, `HANDOVER.md`, `index.html` showcase).
+  - Thêm `username` và `password` vào thực thể tài khoản thành viên (mặc định username tạo theo tên viết liền không dấu: `thaychunhiem`, `songquyen`, `minhquan`... và mật khẩu khởi tạo: `ct1619` hoặc `123456`).
+  - Dựng màn hình `LoginScreen` chuẩn iOS / Notion: Hỗ trợ nhập trực tiếp hoặc bấm chọn nhanh tài khoản thành viên kèm mật khẩu.
+  - Lưu phiên đăng nhập `currentAuthMemberId` vào `AsyncStorage` để giữ đăng nhập khi mở lại app.
+  - Thêm nút Đăng Xuất trong tab Hệ Thống.
