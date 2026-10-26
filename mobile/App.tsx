@@ -64,26 +64,38 @@ export default function App() {
             member={myProfile}
             isMyProfile={true}
             onBack={() => setCurrentTab('directory')}
-            onEdit={() => {
-              setSelectedMember(myProfile);
-              setIsEditing(true);
-            }}
+            onEdit={() => setIsEditing(true)}
           />
         );
       case 'events':
         return (
           <EventsScreen
             events={data.events}
-            onToggleJoin={id => {
+            onToggleJoin={eventId => {
               setData(prev => ({
                 ...prev,
-                events: prev.events.map(e => e.id === id ? { ...e, isRegistered: !e.isRegistered, attendeesCount: e.isRegistered ? e.attendeesCount - 1 : e.attendeesCount + 1 } : e)
+                events: prev.events.map(ev => {
+                  if (ev.id === eventId) {
+                    const joined = !ev.isJoined;
+                    return {
+                      ...ev,
+                      isJoined: joined,
+                      attendeesCount: joined ? ev.attendeesCount + 1 : Math.max(1, ev.attendeesCount - 1),
+                    };
+                  }
+                  return ev;
+                }),
               }));
             }}
             onAddEvent={newEvent => {
+              const created = {
+                ...newEvent,
+                id: 'ev_' + Date.now(),
+                createdAt: new Date().toISOString(),
+              };
               setData(prev => ({
                 ...prev,
-                events: [{ ...newEvent, id: `ev_${Date.now()}`, createdAt: '2026-10-26', isRegistered: true }, ...prev.events]
+                events: [created, ...prev.events],
               }));
             }}
           />
@@ -92,46 +104,61 @@ export default function App() {
         return (
           <SettingsScreen
             data={data}
-            onImportData={d => setData(d)}
+            onImportData={newData => setData(newData)}
             onResetData={() => setData(INITIAL_DATA)}
           />
         );
+      default:
+        return null;
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.appContainer}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.mainView}>{renderContent()}</View>
+      <View style={styles.contentArea}>{renderContent()}</View>
+
+      {/* Modern iOS Bottom Tab Bar */}
       {!selectedMember && !isEditing && (
-        <View style={styles.bottomNav}>
+        <View style={styles.tabBar}>
           <TouchableOpacity
-            style={styles.navItem}
-            onPress={() => { setSelectedMember(null); setCurrentTab('directory'); }}
+            style={styles.tabItem}
+            onPress={() => setCurrentTab('directory')}
+            activeOpacity={0.7}
           >
-            <Text style={[styles.navIcon, currentTab === 'directory' && styles.navIconActive]}>📖</Text>
-            <Text style={[styles.navLabel, currentTab === 'directory' && styles.navLabelActive]}>Lưu Bút</Text>
+            <Text style={[styles.tabLabel, currentTab === 'directory' && styles.tabLabelActive]}>
+              Danh bạ
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.navItem}
-            onPress={() => { setSelectedMember(null); setCurrentTab('my_profile'); }}
+            style={styles.tabItem}
+            onPress={() => setCurrentTab('my_profile')}
+            activeOpacity={0.7}
           >
-            <Text style={[styles.navIcon, currentTab === 'my_profile' && styles.navIconActive]}>🌱</Text>
-            <Text style={[styles.navLabel, currentTab === 'my_profile' && styles.navLabelActive]}>Hành Trình Của Tôi</Text>
+            <Text style={[styles.tabLabel, currentTab === 'my_profile' && styles.tabLabelActive]}>
+              Cá nhân
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.navItem}
-            onPress={() => { setSelectedMember(null); setCurrentTab('events'); }}
+            style={styles.tabItem}
+            onPress={() => setCurrentTab('events')}
+            activeOpacity={0.7}
           >
-            <Text style={[styles.navIcon, currentTab === 'events' && styles.navIconActive]}>📌</Text>
-            <Text style={[styles.navLabel, currentTab === 'events' && styles.navLabelActive]}>Sự Kiện Lớp</Text>
+            <Text style={[styles.tabLabel, currentTab === 'events' && styles.tabLabelActive]}>
+              Sự kiện
+            </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.navItem}
-            onPress={() => { setSelectedMember(null); setCurrentTab('settings'); }}
+            style={styles.tabItem}
+            onPress={() => setCurrentTab('settings')}
+            activeOpacity={0.7}
           >
-            <Text style={[styles.navIcon, currentTab === 'settings' && styles.navIconActive]}>⚙️</Text>
-            <Text style={[styles.navLabel, currentTab === 'settings' && styles.navLabelActive]}>Đồng Bộ</Text>
+            <Text style={[styles.tabLabel, currentTab === 'settings' && styles.tabLabelActive]}>
+              Hệ thống
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -140,20 +167,34 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.colors.background },
-  mainView: { flex: 1 },
-  bottomNav: {
+  appContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  contentArea: {
+    flex: 1,
+  },
+  tabBar: {
     flexDirection: 'row',
-    height: 64,
+    height: 54,
     backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
-    borderTopColor: '#ECE3D5',
+    borderTopColor: theme.colors.cardBorder,
     alignItems: 'center',
-    justifyContent: 'space-around',
   },
-  navItem: { alignItems: 'center', justifyContent: 'center', flex: 1 },
-  navIcon: { fontSize: 20, opacity: 0.6 },
-  navIconActive: { opacity: 1, transform: [{ scale: 1.15 }] },
-  navLabel: { fontSize: 11, fontWeight: '600', color: theme.colors.textMuted, marginTop: 2 },
-  navLabelActive: { color: theme.colors.primary, fontWeight: '800' },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+  },
+  tabLabel: {
+    fontSize: theme.typography.sizes.body,
+    fontWeight: theme.typography.weights.medium,
+    color: theme.colors.textMuted,
+  },
+  tabLabelActive: {
+    color: theme.colors.primary,
+    fontWeight: theme.typography.weights.semibold,
+  },
 });

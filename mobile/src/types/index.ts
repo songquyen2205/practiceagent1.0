@@ -39,6 +39,7 @@ export interface ClassEvent {
   organizerName: string;
   attendeesCount: number;
   isRegistered?: boolean;
+  isJoined?: boolean;
   category: 'reunion' | 'visit_teacher' | 'anniversary' | 'informal';
   createdAt: string;
 }

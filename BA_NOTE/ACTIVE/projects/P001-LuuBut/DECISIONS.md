@@ -17,13 +17,17 @@
 
 ---
 
-### DEC-002: Phong cách Thiết kế Giao diện Nostalgic Fresh
+### DEC-002: Phong cách Thiết kế Giao diện Nostalgic Fresh & Realism Gate (v4.3)
 - **Status**: Confirmed
-- **Scope**: Mobile UI/UX Design System
-- **Bối cảnh**: Người dùng yêu cầu phong cách "đơn giản, hoài niệm mà nhìn style fresh, đẹp".
+- **Scope**: Mobile UI/UX Design System & Realism Gate
+- **Bối cảnh**: Người dùng yêu cầu phong cách "đơn giản, hoài niệm mà nhìn style fresh, đẹp". Framework v4.3 yêu cầu đối soát 9 tiêu chí Design Realism (REAL-Q01 -> REAL-Q09) để loại bỏ dấu vết AI sáo rỗng.
 - **Giải pháp**:
   - Thiết kế lấy cảm hứng từ "Cuốn Sổ Lưu Bút Kỷ Yếu Tuổi Học Trò":
-    - Phông nền màu giấy vintage cao cấp sáng sạch (`#FBF9F5` / `#F3EFE6`).
-    - Thẻ thành viên mô phỏng trang kẹp ảnh polaroid / giấy ghi chú với sticker biểu cảm đáng yêu.
-    - Timeline hành trình học vấn & công việc dạng cây thước kẻ kỉ niệm.
-    - Typography kích cỡ rõ ràng, độ tương phản tốt để thầy cô giáo lớn tuổi đọc không bị mỏi mắt.
+    - Phông nền màu giấy vintage cao cấp sáng sạch (`#FAF6F0` / `#FFFFFF`).
+    - Thẻ thành viên mô phỏng trang kẹp sổ tay với màu washi tape trang trí (`#F3D5B5`).
+    - Màu sắc chủ đạo: Xanh rêu bảng đen dịu mát (`#4A6B53`), cam gạch nung học trò (`#D87A56`), vàng nắng sân trường (`#EBB44D`).
+    - Typography kích cỡ rõ ràng (Georgia serif + Sans body), độ tương phản cao để thầy cô lớn tuổi đọc dễ chịu, không bị mỏi mắt.
+  - **Đáp ứng Design Realism (v4.3)**:
+    - Loại bỏ hoàn toàn copy sáo rỗng AI ("Welcome to your amazing journey"); dùng ngôn ngữ thân mật thực tế của học sinh/thầy cô Việt Nam ("Thầy Chủ Nhiệm Kính Yêu", "Biệt danh", "Châm ngôn", "Mốc sự nghiệp / Học vấn").
+    - Dữ liệu định danh thực tế của lớp CT1619 (24 bạn học thực sự với trường ĐH, công ty, quê quán, không dùng mockup vô hồn hay placeholder generic).
+    - Bộ tương tác hỗ trợ đầy đủ empty state, error/validation mốc thời gian, modal xác nhận sao lưu và toast in-app.

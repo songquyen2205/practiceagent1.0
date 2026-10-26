@@ -27,103 +27,102 @@ export const MemberDetailScreen: React.FC<Props> = ({
 }) => {
   const isTeacher = member.role === 'teacher';
 
+  const getInitials = (name: string) => {
+    if (!name) return 'MB';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
-      
-      {/* Top Bar navigation */}
+
+      {/* Modern Top Navigation Bar */}
       <View style={styles.topBar}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Quay lại</Text>
+          <Text style={styles.backButtonText}>← Danh sách</Text>
         </TouchableOpacity>
-        <Text style={styles.topBarTitle}>Trang Kỷ Yếu Cá Nhân</Text>
+        <Text style={styles.topBarTitle} numberOfLines={1}>
+          {member.name}
+        </Text>
         {isMyProfile && onEdit ? (
           <TouchableOpacity onPress={onEdit} style={styles.editButton}>
-            <Text style={styles.editButtonText}>✏️ Chỉnh sửa</Text>
+            <Text style={styles.editButtonText}>Chỉnh sửa</Text>
           </TouchableOpacity>
         ) : (
-          <View style={{ width: 60 }} />
+          <View style={{ width: 70 }} />
         )}
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Thẻ chân dung sổ lưu bút */}
+        {/* Profile Header Card */}
         <View style={styles.profileCard}>
-          <View style={[styles.washiTape, isTeacher && styles.washiTapeTeacher]} />
-
           <View style={styles.avatarRow}>
-            <View style={[styles.avatarBox, { backgroundColor: member.avatarBgColor }]}>
-              <Text style={styles.avatarEmoji}>{member.avatarText}</Text>
+            <View style={[styles.avatarBox, isTeacher ? styles.avatarTeacher : styles.avatarStudent]}>
+              <Text style={[styles.avatarText, isTeacher ? styles.avatarTextTeacher : styles.avatarTextStudent]}>
+                {isTeacher ? 'GV' : getInitials(member.name)}
+              </Text>
             </View>
-            <View style={styles.profileHeaderInfo}>
-              <Text style={styles.memberName}>{member.name}</Text>
+
+            <View style={styles.headerInfo}>
+              <View style={styles.titleRow}>
+                <Text style={styles.memberName}>{member.name}</Text>
+                {isTeacher && (
+                  <View style={styles.tag}>
+                    <Text style={styles.tagText}>Giáo Viên</Text>
+                  </View>
+                )}
+              </View>
+
               {member.nickname ? (
-                <Text style={styles.memberNickname}>Biệt danh: "{member.nickname}"</Text>
-              ) : null}
-              <View style={styles.roleBadge}>
-                <Text style={styles.roleBadgeText}>
-                  {isTeacher ? '👩‍🏫 Thầy Cô Kính Yêu' : '🎓 Cựu Học Sinh'}
+                <Text style={styles.nickname}>
+                  "{member.nickname.replace(/[🌸❤️🌻⚡🎨🏖️💻🌟🎻🎸🎬📷✈️🩺🏀📖🍲🌾🐾🏔️]/g, '').trim()}"
                 </Text>
-              </View>
+              ) : null}
+
+              <Text style={styles.headline} numberOfLines={2}>
+                {member.currentCompany || member.subjectOrMajor || 'Đang cập nhật vị trí'}
+              </Text>
             </View>
           </View>
 
-          {/* Lời tự sự / Lời nhắn gửi */}
-          {member.memorableQuote ? (
-            <View style={styles.quoteCard}>
-              <Text style={styles.quoteCardLabel}>💌 Lời gửi thầy cô & bạn bè:</Text>
-              <Text style={styles.quoteCardBody}>"{member.memorableQuote}"</Text>
+          {/* Quick Stats Grid */}
+          <View style={styles.metaGrid}>
+            <View style={styles.metaItem}>
+              <Text style={styles.metaLabel}>Địa điểm</Text>
+              <Text style={styles.metaValue}>{member.currentCity || 'Việt Nam'}</Text>
             </View>
-          ) : null}
-
-          {/* Thông tin liên lạc */}
-          <View style={styles.contactSection}>
-            <Text style={styles.sectionTitle}>📬 Thông tin liên hệ</Text>
-            {member.phone ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>📞</Text>
-                <Text style={styles.contactText}>{member.phone}</Text>
-              </View>
-            ) : null}
-            {member.email ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>✉️</Text>
-                <Text style={styles.contactText}>{member.email}</Text>
-              </View>
-            ) : null}
+            <View style={styles.metaItem}>
+              <Text style={styles.metaLabel}>Liên hệ</Text>
+              <Text style={styles.metaValue}>{member.phone || member.email || 'Không công khai'}</Text>
+            </View>
             {member.zaloOrSocial ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>🌐</Text>
-                <Text style={styles.contactText}>{member.zaloOrSocial}</Text>
-              </View>
-            ) : null}
-            {member.currentCity ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>📍</Text>
-                <Text style={styles.contactText}>Hiện đang ở: {member.currentCity}</Text>
+              <View style={styles.metaItem}>
+                <Text style={styles.metaLabel}>Mạng xã hội</Text>
+                <Text style={styles.metaValue}>{member.zaloOrSocial}</Text>
               </View>
             ) : null}
           </View>
         </View>
 
-        {/* Hành trình học tập và làm việc */}
-        <View style={styles.timelineSection}>
-          <View style={styles.timelineHeader}>
-            <Text style={styles.timelineSectionTitle}>
-              🌱 Hành trình Học vấn & Sự nghiệp
-            </Text>
-            <Text style={styles.timelineSubtitle}>
-              Giúp thầy cô và các bạn tiện theo dõi từng bước đi của bạn
+        {/* Lời chúc / Kỷ niệm */}
+        {member.memorableQuote ? (
+          <View style={styles.sectionCard}>
+            <Text style={styles.sectionTitle}>Lời nhắn gửi</Text>
+            <Text style={styles.quoteBody}>
+              "{member.memorableQuote.replace(/[🌸❤️🌻⚡🎨🏖️💻🌟🎻🎸🎬📷✈️🩺🏀📖🍲🌾🐾🏔️💭]/g, '').trim()}"
             </Text>
           </View>
+        ) : null}
 
+        {/* Hành trình Học vấn & Nghề nghiệp */}
+        <View style={styles.sectionCard}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Hành trình & Mốc sự nghiệp</Text>
+            <Text style={styles.sectionBadge}>{member.timelines?.length || 0} mốc</Text>
+          </View>
           <TimelineView milestones={member.timelines} />
-        </View>
-
-        <View style={styles.footerNote}>
-          <Text style={styles.footerText}>
-            Trang lưu bút được cập nhật lần cuối: {member.updatedAt}
-          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -139,194 +138,166 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    backgroundColor: theme.colors.cardBackground,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    backgroundColor: '#FAF6F0',
+    borderBottomColor: theme.colors.cardBorder,
   },
   backButton: {
-    paddingVertical: 4,
+    width: 80,
   },
   backButtonText: {
-    fontSize: 14,
+    fontSize: theme.typography.sizes.body,
     color: theme.colors.primary,
-    fontWeight: '700',
+    fontWeight: theme.typography.weights.medium,
   },
   topBarTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: theme.typography.weights.semibold,
     color: theme.colors.textPrimary,
+    textAlign: 'center',
+    flex: 1,
   },
   editButton: {
-    backgroundColor: '#EAE1D3',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
+    width: 80,
+    alignItems: 'flex-end',
   },
   editButtonText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: theme.colors.textPrimary,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.primary,
+    fontWeight: theme.typography.weights.semibold,
   },
   scrollContent: {
-    padding: 16,
-    paddingBottom: 40,
+    padding: theme.spacing.lg,
+    paddingBottom: theme.spacing.xxxl,
   },
   profileCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: theme.borderRadius.lg,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    shadowColor: '#4A3E31',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
-    marginBottom: 20,
-    position: 'relative',
-  },
-  washiTape: {
-    position: 'absolute',
-    top: -7,
-    alignSelf: 'center',
-    width: 80,
-    height: 14,
-    backgroundColor: '#F3D5B5',
-    opacity: 0.85,
-    borderRadius: 2,
-    transform: [{ rotate: '1deg' }],
-    zIndex: 2,
-  },
-  washiTapeTeacher: {
-    backgroundColor: '#F9C6C9',
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.lg,
+    ...theme.shadows.subtle,
   },
   avatarRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 6,
-    marginBottom: 14,
   },
   avatarBox: {
-    width: 72,
-    height: 72,
-    borderRadius: 16,
+    width: 56,
+    height: 56,
+    borderRadius: theme.borderRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#ECE4D8',
+    marginRight: theme.spacing.md,
   },
-  avatarEmoji: {
-    fontSize: 38,
-  },
-  profileHeaderInfo: {
-    flex: 1,
-    marginLeft: 14,
-  },
-  memberName: {
-    fontSize: 20,
-    fontWeight: '800',
-    color: theme.colors.textPrimary,
-  },
-  memberNickname: {
-    fontSize: 13,
-    fontStyle: 'italic',
-    color: theme.colors.accentWarm,
-    marginTop: 2,
-  },
-  roleBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#F0ECE4',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
-    marginTop: 6,
-  },
-  roleBadgeText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: theme.colors.textSecondary,
-  },
-  quoteCard: {
-    backgroundColor: '#FDF9F2',
-    borderLeftWidth: 3,
-    borderLeftColor: theme.colors.accentWarm,
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 14,
-  },
-  quoteCardLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#8A533E',
-    marginBottom: 4,
-  },
-  quoteCardBody: {
-    fontSize: 13,
-    fontStyle: 'italic',
-    color: '#4F4439',
-    lineHeight: 19,
-  },
-  contactSection: {
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.divider,
-    paddingTop: 12,
-  },
-  sectionTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
-    marginBottom: 8,
-  },
-  contactItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  contactIcon: {
-    fontSize: 13,
-    marginRight: 8,
-  },
-  contactText: {
-    fontSize: 13,
-    color: theme.colors.textSecondary,
-  },
-  timelineSection: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
+  avatarStudent: {
+    backgroundColor: theme.colors.surfaceSubtle,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    shadowColor: '#4A3E31',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
   },
-  timelineHeader: {
-    marginBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    paddingBottom: 8,
+  avatarTeacher: {
+    backgroundColor: theme.colors.primaryLight,
+    borderWidth: 1,
+    borderColor: theme.colors.primaryBorder,
   },
-  timelineSectionTitle: {
-    fontSize: 16,
-    fontWeight: '800',
+  avatarText: {
+    fontSize: 18,
+    fontWeight: theme.typography.weights.bold,
+  },
+  avatarTextStudent: {
+    color: theme.colors.textPrimary,
+  },
+  avatarTextTeacher: {
     color: theme.colors.primary,
   },
-  timelineSubtitle: {
-    fontSize: 11.5,
-    color: theme.colors.textMuted,
-    marginTop: 3,
+  headerInfo: {
+    flex: 1,
   },
-  footerNote: {
-    marginTop: 20,
+  titleRow: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  footerText: {
-    fontSize: 11,
+  memberName: {
+    fontSize: theme.typography.sizes.title,
+    fontWeight: theme.typography.weights.bold,
+    color: theme.colors.textPrimary,
+    marginRight: theme.spacing.sm,
+  },
+  tag: {
+    backgroundColor: theme.colors.primaryLight,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: theme.borderRadius.xs,
+  },
+  tagText: {
+    fontSize: theme.typography.sizes.small,
+    fontWeight: theme.typography.weights.medium,
+    color: theme.colors.primary,
+  },
+  nickname: {
+    fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
+    marginTop: 2,
+  },
+  headline: {
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textSecondary,
+    marginTop: 4,
+  },
+  metaGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.divider,
+  },
+  metaItem: {
+    width: '50%',
+    marginBottom: theme.spacing.sm,
+  },
+  metaLabel: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+    fontWeight: theme.typography.weights.medium,
+  },
+  metaValue: {
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textPrimary,
+    marginTop: 2,
+  },
+  sectionCard: {
+    backgroundColor: theme.colors.cardBackground,
+    borderRadius: theme.borderRadius.lg,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
+    padding: theme.spacing.lg,
+    marginBottom: theme.spacing.lg,
+    ...theme.shadows.subtle,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing.md,
+  },
+  sectionTitle: {
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: theme.typography.weights.semibold,
+    color: theme.colors.textPrimary,
+  },
+  sectionBadge: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+  },
+  quoteBody: {
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textSecondary,
+    lineHeight: 22,
+    marginTop: theme.spacing.sm,
     fontStyle: 'italic',
   },
 });

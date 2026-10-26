@@ -1,9 +1,9 @@
 # STATUS: P001-LuuBut — Sổ Lưu Bút Kỷ Yếu Mobile App (CT1619)
 
 **Cập nhật**: 2026-10-26 (Asia/Saigon)  
-**Framework**: BA Harness v3.9  
-**Chế độ**: End-to-End Execution (BA Agent -> Tech Lead -> Dev -> QC -> Handover)  
-**Đặc thù**: **Skip SOW** theo chỉ đạo trực tiếp của người dùng.  
+**Framework**: BA Harness v4.3  
+**Chế độ**: End-to-End Execution (BA Agent -> Designer -> Tech Lead -> Dev -> QC -> Handover)  
+**Đặc thù**: **Skip SOW** theo chỉ đạo trực tiếp của người dùng; Tuân thủ **Design Realism Gate (REAL-Q01 -> REAL-Q09)**.  
 **Trạng thái tổng thể**: `ready_for_final_review`
 
 ---
