@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Báo Cáo Dự Án: Sổ Lưu Bút Kỷ Yếu Mobile App — Lớp CT1619 | BA Agent Framework</title>
+  <title>Báo Cáo Dự Án: Sổ Lưu Bút Kỷ Yếu Mobile App — Lớp CT1619 | Team Agent Practice</title>
   <style>
     :root {
       --bg: #FBF9F5;
@@ -98,12 +98,12 @@
       flex-direction: column;
     }
     .card-step {
-      font-size: 11.5px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     .card h3 {
       font-size: 16px;
@@ -186,7 +186,7 @@
     <header>
       <div class="washi-tape"></div>
       <h1>🎓 Báo Cáo Dự Án: Sổ Lưu Bút Kỷ Yếu Mobile App — Lớp CT1619</h1>
-      <p class="subtitle">Thực thi End-to-End từ ý tưởng đến sản phẩm hoàn chỉnh bằng mô hình <strong>Team Agent (BA Agent Framework)</strong> — Training bởi <strong>anh Công</strong></p>
+      <p class="subtitle">Thực thi bài bản và nhất quán từ ý tưởng đến sản phẩm hoàn chỉnh bằng mô hình <strong>Team Agent</strong></p>
       
       <div class="meta-badges">
         <span class="badge badge-primary">✅ Triển khai: React Native Expo SDK 58</span>
@@ -198,43 +198,42 @@
 
     <div class="live-banner">
       <div>
-        <h2>📱 Quy Trình Thực Thi Team Agent: 4 Bước Liên Hoàn</h2>
-        <p><strong>BA lên ý tưởng ➔ Dev lên kiến trúc ➔ Dev code ➔ Test & Đóng gói</strong></p>
+        <h2>📱 Quy Trình Team Agent: 4 Bước Bài Bản</h2>
+        <p><strong>BA lên ý tưởng ➔ Dev lên kiến trúc ➔ Dev code ➔ Test</strong></p>
       </div>
       <a href="https://github.com/songquyen2205/practiceagent1.0" target="_blank" class="btn-live">📂 Xem Source Code GitHub</a>
     </div>
 
-    <!-- Section 1: End-to-End Delivery chuẩn 4 bước -->
-    <h2 class="section-title">⚙️ Quy Trình Thực Thi End-to-End Qua Team Agent</h2>
+    <!-- Section 1: Đổi tiêu đề chuẩn đúng từng chữ -->
+    <h2 class="section-title">⚙️ Quy Trình Team Agent (BA lên ý tưởng ➔ Dev lên kiến trúc ➔ Dev code ➔ Test)</h2>
     <div class="grid-4">
       <!-- Bước 1 -->
       <div class="card">
-        <span class="card-step">Bước 1 • BA Agent</span>
-        <h3>BA Lên Ý Tưởng & Đặc Tả</h3>
+        <span class="card-step">Bước 1</span>
+        <h3>BA Lên Ý Tưởng</h3>
         <ul>
-          <li><strong>Ý tưởng bài toán:</strong> Thầy cô lớn tuổi khó nhớ hết công việc từng bạn; mỗi lần gặp lại phải hỏi lại từ đầu.</li>
-          <li><strong>Mục tiêu:</strong> App di động lưu bút hoài niệm để từng bạn tự cập nhật hành trình học vấn & công việc khi đổi việc.</li>
-          <li><strong>Chức năng:</strong> Danh bạ 24 bạn CT1619, Timeline sự nghiệp, Bảng tin họp lớp & thăm thầy cô 20/11.</li>
-          <li><strong>Đầu ra:</strong> Lập tài liệu đặc tả <code>SRS.md</code> chuẩn ISO 29148.</li>
+          <li><strong>Bối cảnh & Ý tưởng:</strong> Thầy cô lớn tuổi khó nhớ hết công việc từng bạn; mỗi lần gặp lại phải hỏi lại. Xây dựng Sổ Lưu Bút di động hoài niệm để từng bạn tự cập nhật hành trình khi đổi việc/đổi công ty.</li>
+          <li><strong>Yêu cầu chức năng:</strong> Danh bạ 24 thành viên CT1619, Timeline học vấn & sự nghiệp, Bảng tin họp lớp & thăm thầy cô.</li>
+          <li><strong>Đặc tả nghiệp vụ:</strong> Ban hành hồ sơ đặc tả <code>SRS.md</code> chuẩn ISO 29148.</li>
         </ul>
       </div>
 
       <!-- Bước 2 -->
       <div class="card">
-        <span class="card-step">Bước 2 • Tech Lead Agent</span>
+        <span class="card-step">Bước 2</span>
         <h3>Dev Lên Kiến Trúc</h3>
         <ul>
-          <li><strong>Kiến trúc Không Backend:</strong> Lưu trữ 100% cục bộ bằng <code>AsyncStorage</code> in-app, bảo mật riêng tư tuyệt đối cho lớp học, không tốn chi phí server.</li>
-          <li><strong>Cơ chế Backup/Sync:</strong> Cho phép Xuất/Nhập dữ liệu qua file JSON để gửi qua Zalo/AirDrop.</li>
-          <li><strong>Data Model:</strong> Chuẩn hoá TypeScript (Member, Milestone, ClassEvent).</li>
-          <li><strong>Đầu ra:</strong> Ban hành quyết định tại <code>DECISIONS.md</code>.</li>
+          <li><strong>Kiến trúc Không Backend:</strong> Lưu trữ 100% cục bộ bằng <code>AsyncStorage</code> in-app, bảo mật riêng tư tuyệt đối cho lớp, không tốn chi phí duy trì server.</li>
+          <li><strong>Cơ chế Chia sẻ:</strong> Xuất/Nhập dữ liệu file JSON để gửi qua Zalo/AirDrop cho thầy cô và bạn bè.</li>
+          <li><strong>Data Model:</strong> Chuẩn hoá các interface TypeScript (Member, Milestone, ClassEvent).</li>
+          <li><strong>Quyết định kiến trúc:</strong> Ban hành tại <code>DECISIONS.md</code>.</li>
         </ul>
       </div>
 
       <!-- Bước 3 -->
       <div class="card">
-        <span class="card-step">Bước 3 • Mobile Dev Agent</span>
-        <h3>Dev Code Sản Phẩm</h3>
+        <span class="card-step">Bước 3</span>
+        <h3>Dev Code</h3>
         <ul>
           <li><strong>Công nghệ:</strong> React Native Expo, TypeScript 100%. Nâng cấp <strong>SDK 58.0.0</strong> mới nhất.</li>
           <li><strong>UI Nostalgic Fresh:</strong> Phong cách giấy vintage kraft ấm áp, thẻ kẹp polaroid, washi tape.</li>
@@ -245,13 +244,13 @@
 
       <!-- Bước 4 -->
       <div class="card">
-        <span class="card-step">Bước 4 • QC & DevOps Agent</span>
-        <h3>Test & Đóng Gói</h3>
+        <span class="card-step">Bước 4</span>
+        <h3>Test</h3>
         <ul>
           <li><strong>Kiểm thử Logic:</strong> Biên dịch <code>tsc --noEmit</code> đạt 100% không lỗi kiểu dữ liệu.</li>
           <li><strong>Kiểm thử UI/UX:</strong> Mô phỏng kích thước màn hình iPhone thực tế (viewport 412x892), kiểm tra vuốt chạm mượt mà.</li>
           <li><strong>Chụp ảnh UI:</strong> Tự động capture bộ ảnh thực tế 4 màn hình chính của Mobile App.</li>
-          <li><strong>Đóng gói:</strong> Push lên GitHub repo độc lập và tự động deploy website showcase.</li>
+          <li><strong>Nghiệm thu:</strong> Đóng gói sản phẩm hoàn chỉnh và xuất bản trực tuyến.</li>
         </ul>
       </div>
     </div>
@@ -281,7 +280,7 @@
     </div>
 
     <footer>
-      Dự án thực hiện bởi <strong>Song Quyên (BA)</strong> phối hợp cùng <strong>Team AI Agent</strong> theo chương trình training của <strong>anh Công</strong>.<br>
+      Dự án thực hiện bởi <strong>Song Quyên (BA)</strong> phối hợp cùng <strong>Team AI Agent</strong>.<br>
       © 2026 Tập thể Lớp CT1619 — Egitech Technology.
     </footer>
   </div>
