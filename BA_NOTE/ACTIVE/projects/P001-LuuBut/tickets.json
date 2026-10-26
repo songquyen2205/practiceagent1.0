@@ -1,0 +1,39 @@
+{
+  "tickets": [
+    {
+      "id": "T-001",
+      "title": "G1: Khảo sát & Đặc tả SRS (Skip SOW)",
+      "role": "senior_ba",
+      "depends_on": [],
+      "status": "done"
+    },
+    {
+      "id": "T-002",
+      "title": "G2: Thiết kế kiến trúc & Specs F001-F005",
+      "role": "tech_lead",
+      "depends_on": ["T-001"],
+      "status": "done"
+    },
+    {
+      "id": "T-003",
+      "title": "G3: Lập trình App Modern Clean iOS & Login",
+      "role": "fe_developer",
+      "depends_on": ["T-002"],
+      "status": "done"
+    },
+    {
+      "id": "T-004",
+      "title": "G4: Staging Validation & Đồng bộ Showcase",
+      "role": "qc_lead",
+      "depends_on": ["T-003"],
+      "status": "done"
+    },
+    {
+      "id": "T-005",
+      "title": "G5: Handover & Trình BA Nghiệm Thu Cuối",
+      "role": "senior_ba",
+      "depends_on": ["T-004"],
+      "status": "done"
+    }
+  ]
+}
