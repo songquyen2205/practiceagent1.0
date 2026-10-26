@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "project_id": "P001-LuuBut",
+  "tickets": [
+    {
+      "id": "T-001",
+      "title": "G1: Đón nhận bài toán & Khảo sát nghiệp vụ",
+      "phase": "G1",
+      "role": "senior_ba",
+      "owner": "BA_Agent",
+      "receiver": "Tech_Lead_Agent",
+      "objective": "Xác minh bài toán lưu bút kỷ yếu CT1619, lập yêu cầu functional & non-functional (SRS.md tham chiếu ISO 29148, skip SOW theo yêu cầu người dùng)",
+      "state": "done",
+      "depends_on": [],
+      "requirements": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
+      "inputs": ["C:\\Users\\Song Quyen\\CT1619\\10th-invitation\\src\\three\\classroom\\studentProfiles.ts"],
+      "write_scope": ["SRS.md", "STATUS.md", "DECISIONS.md"],
+      "criteria": [
+        {
+          "id": "C-01",
+          "expected": "Hoàn thiện hồ sơ SRS.md gồm 4 yêu cầu chính và 3 NFR",
+          "method": "Review tài liệu SRS.md",
+          "verdict": "pass",
+          "evidence": "SRS.md"
+        },
+        {
+          "id": "C-02",
+          "expected": "Quyết định kiến trúc Offline First không BE được ghi nhận",
+          "method": "Check DECISIONS.md",
+          "verdict": "pass",
+          "evidence": "DECISIONS.md#DEC-001"
+        }
+      ],
+      "outputs": ["SRS.md", "DECISIONS.md"],
+      "required_audits": [],
+      "blocking_findings": [],
+      "requires_ba_approval": true,
+      "recommendation": "Chuyển sang thiết kế kiến trúc và data model in-app",
+      "next_action": "Triển khai ticket T-002"
+    },
+    {
+      "id": "T-002",
+      "title": "G2: Kiến trúc hệ thống & Thiết kế Data Model",
+      "phase": "G2",
+      "role": "tech_lead",
+      "owner": "Tech_Lead_Agent",
+      "receiver": "Dev_Agent",
+      "objective": "Lựa chọn stack Expo React Native, TypeScript 100%, thiết kế data model Member, Timeline, Event và dịch vụ AsyncStorage",
+      "state": "done",
+      "depends_on": ["T-001"],
+      "requirements": ["REQ-001", "REQ-004", "NFR-001", "NFR-002"],
+      "inputs": ["SRS.md", "DECISIONS.md"],
+      "write_scope": ["features/F001-profile-timeline.md", "features/F002-member-directory.md", "features/F003-events-board.md", "features/F004-offline-sync.md"],
+      "criteria": [
+        {
+          "id": "C-03",
+          "expected": "Đặc tả chi tiết 4 features F001 - F004 tương ứng 4 REQ",
+          "method": "Kiểm tra thư mục features/",
+          "verdict": "pass",
+          "evidence": "features/"
+        }
+      ],
+      "outputs": ["features/F001-profile-timeline.md", "features/F002-member-directory.md", "features/F003-events-board.md", "features/F004-offline-sync.md"],
+      "required_audits": [],
+      "blocking_findings": [],
+      "requires_ba_approval": false,
+      "recommendation": "Sẵn sàng lập trình các màn hình và logic lưu trữ",
+      "next_action": "Triển khai ticket T-003"
+    },
+    {
+      "id": "T-003",
+      "title": "G3: Lập trình App Mobile Expo React Native",
+      "phase": "G3",
+      "role": "fe_developer",
+      "owner": "Dev_Agent",
+      "receiver": "QC_Agent",
+      "objective": "Code 4 màn hình chính, giao diện Nostalgic Fresh, tích hợp AsyncStorage và nạp đầy đủ 24 hồ sơ CT1619",
+      "state": "done",
+      "depends_on": ["T-002"],
+      "requirements": ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "NFR-003"],
+      "inputs": ["features/"],
+      "write_scope": ["mobile/"],
+      "criteria": [
+        {
+          "id": "C-04",
+          "expected": "TypeScript biên dịch tsc --noEmit không có lỗi cú pháp",
+          "method": "tsc --noEmit",
+          "verdict": "pass",
+          "evidence": "tsc output 0 errors"
+        },
+        {
+          "id": "C-05",
+          "expected": "Tích hợp chuẩn 24 bạn CT1619 và export web dist",
+          "method": "Kiểm tra dist bundle và AsyncStorage",
+          "verdict": "pass",
+          "evidence": "mobile/dist"
+        }
+      ],
+      "outputs": ["mobile/src", "mobile/dist"],
+      "required_audits": [],
+      "blocking_findings": [],
+      "requires_ba_approval": false,
+      "recommendation": "Chuyển giao QC test giao diện và kiểm thử luồng",
+      "next_action": "Triển khai ticket T-004"
+    },
+    {
+      "id": "T-004",
+      "title": "G3/G5: Test & Nghiệm thu Bàn giao (HANDOVER)",
+      "phase": "G5",
+      "role": "qc_lead",
+      "owner": "QC_Agent",
+      "receiver": "Senior_BA",
+      "objective": "Chụp ảnh UI thực tế 4 màn hình, xuất bản Web Showcase trên GitHub Pages, lập biên bản bàn giao HANDOVER.md",
+      "state": "done",
+      "depends_on": ["T-003"],
+      "requirements": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
+      "inputs": ["mobile/dist", "screenshots/"],
+      "write_scope": ["HANDOVER.md", "STATUS.md", "index.html"],
+      "criteria": [
+        {
+          "id": "C-06",
+          "expected": "Chụp đủ 4 ảnh UI màn hình chuẩn kích thước di động",
+          "method": "Kiểm tra thư mục screenshots/",
+          "verdict": "pass",
+          "evidence": "screenshots/"
+        },
+        {
+          "id": "C-07",
+          "expected": "Web showcase và web app hoạt động trực tiếp trên GitHub Pages",
+          "method": "HTTP GET 200 OK trên songquyen2205.github.io/practiceagent1.0/",
+          "verdict": "pass",
+          "evidence": "https://songquyen2205.github.io/practiceagent1.0/"
+        }
+      ],
+      "outputs": ["HANDOVER.md", "STATUS.md"],
+      "required_audits": [],
+      "blocking_findings": [],
+      "requires_ba_approval": true,
+      "recommendation": "Sản phẩm hoàn chỉnh, đã sẵn sàng bàn giao cho người dùng nghiệm thu",
+      "next_action": "Báo cáo người dùng BA"
+    }
+  ]
+}

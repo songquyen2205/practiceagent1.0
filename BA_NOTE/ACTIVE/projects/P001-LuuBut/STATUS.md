@@ -1,20 +1,25 @@
-# Trạng thái dự án — P001 LuuBut App
+# STATUS: P001-LuuBut — Sổ Lưu Bút Kỷ Yếu Mobile App (CT1619)
 
-## 1. Thông tin chung
-- **Current Phase**: G3 Test & Ready for Dev/Demo
-- **Active Role**: BA / Tech Lead / Frontend Developer
-- **Target Platform**: React Native Expo (TypeScript)
-- **Repo Directory**: [mobile](file:///C:/Users/Song%20Quyen/.gemini/antigravity/scratch/LuuBut_App/mobile)
+**Cập nhật**: 2026-10-26 (Asia/Saigon)  
+**Framework**: BA Harness v3.9  
+**Chế độ**: End-to-End Execution (BA Agent -> Tech Lead -> Dev -> QC -> Handover)  
+**Đặc thù**: **Skip SOW** theo chỉ đạo trực tiếp của người dùng.  
+**Trạng thái tổng thể**: `ready_for_final_review`
 
-## 2. Bảng Task & Trạng thái
-| Task ID | Nội dung | Owner | Trạng thái | Ghi chú & Bằng chứng |
-|---|---|---|---|---|
-| TASK-01 | Phân tích yêu cầu & Lập hồ sơ BA Spec (SRS, DEC, INDEX) | BA | DONE | Đã hoàn thiện cấu trúc BA_NOTE theo v3.0 |
-| TASK-02 | Thiết kế Data Model & Types TypeScript | Tech Lead | DONE | Types: Member, TimelineMilestone, ClassEvent, LuuButData |
-| TASK-03 | Xây dựng In-App Storage Service & Seed Data phong phú | Dev | DONE | Local Storage Engine + Mock dữ liệu lớp học sinh động |
-| TASK-04 | Thiết kế Theme Nostalgic Fresh (Retro Paper, Pinboard, Polaroid) | Designer / Dev | DONE | Gam màu ấm, font rõ nét cho thầy cô |
-| TASK-05 | Phát triển các màn hình chính (Danh bạ lưu bút, Chi tiết thành viên, Cập nhật hành trình của tôi, Bảng tin sự kiện, Cài đặt & Chia sẻ) | Dev | DONE | Đã hoàn thiện 100% các màn hình |
-| TASK-06 | Kiểm thử TypeScript và Build | QC | DONE | `npx tsc --noEmit` exit 0 không lỗi |
+---
 
-## 3. Log cập nhật gần nhất
-- [2026-10-26]: Khởi tạo dự án theo BA Harness v3.0. Phát triển trọn gói App Sổ Lưu Bút Mobile bằng React Native Expo TypeScript, lưu trữ In-App không BE, giao diện Nostalgic Fresh cực đẹp.
+## 1. Bảng Trạng Thái Công Việc (Task / Ticket Table)
+| Task ID | Phase | Role | Mục Tiêu & Công Việc | Trạng Thái | Link / Evidence |
+|---|---|---|---|---|---|
+| **T-001** | G1 | Senior BA | Khảo sát nghiệp vụ, phân tích SRS, lập quyết định kiến trúc Offline First. (Skip SOW) | **Done** | [SRS.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/SRS.md), [DECISIONS.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/DECISIONS.md) |
+| **T-002** | G2 | Tech Lead | Kiến trúc Expo React Native, TypeScript, thiết kế 4 feature specs F001 - F004. | **Done** | [features/](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/features/) |
+| **T-003** | G3 | FE Developer | Lập trình hoàn chỉnh app, Nostalgic theme, tích hợp 24 bạn CT1619, build dist. | **Done** | `mobile/src/`, `mobile/dist/` |
+| **T-004** | G3/G5 | QC Lead | Kiểm thử luồng, chụp 4 ảnh màn hình UI, xuất bản GitHub Pages, lập HANDOVER.md. | **Done** | [HANDOVER.md](file:///C:/Users/Song%20Quyen/LuuBut_App/BA_NOTE/ACTIVE/projects/P001-LuuBut/HANDOVER.md), [GitHub Pages](https://songquyen2205.github.io/practiceagent1.0/) |
+
+---
+
+## 2. Checkpoint Hiện Hành (Current Checkpoint)
+- **Active Role**: Senior BA / Lead Orchestrator
+- **Files In Progress**: Không (đã hoàn tất chu trình và đóng gói).
+- **Blockers**: Không có blocker kỹ thuật.
+- **Next Action**: Trình hồ sơ bàn giao (`HANDOVER.md`) và sản phẩm hoàn chỉnh để Người Dùng BA nghiệm thu cuối (Final Check).
