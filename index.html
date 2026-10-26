@@ -83,11 +83,6 @@
       align-items: center;
       gap: 8px;
     }
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
     .grid-4 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -99,14 +94,27 @@
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .card-step {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
     .card h3 {
       font-size: 16px;
       color: var(--primary);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
     }
-    ul { padding-left: 20px; }
-    li { margin-bottom: 8px; font-size: 14px; }
+    ul { padding-left: 18px; }
+    li { margin-bottom: 8px; font-size: 13.5px; }
+    li strong { color: var(--text); }
     
     /* Phone showcase */
     .phone-grid {
@@ -178,10 +186,10 @@
     <header>
       <div class="washi-tape"></div>
       <h1>🎓 Báo Cáo Dự Án: Sổ Lưu Bút Kỷ Yếu Mobile App — Lớp CT1619</h1>
-      <p class="subtitle">Thực thi End-to-End từ ý tưởng đến sản phẩm hoàn chỉnh bằng mô hình <strong>BA Agent Framework v3.0</strong> (Training bởi anh Công)</p>
+      <p class="subtitle">Thực thi End-to-End từ ý tưởng đến sản phẩm hoàn chỉnh bằng mô hình <strong>Team Agent (BA Agent Framework)</strong> — Training bởi <strong>anh Công</strong></p>
       
       <div class="meta-badges">
-        <span class="badge badge-primary">✅ Triển khai: React Native Expo (TypeScript)</span>
+        <span class="badge badge-primary">✅ Triển khai: React Native Expo SDK 58</span>
         <span class="badge badge-accent">🔒 Kiến trúc: In-App Offline First (Không BE)</span>
         <span class="badge">👥 Thành viên: 24 người (Lớp CT1619)</span>
         <span class="badge">👩‍💼 Lớp trưởng & BA: Song Quyên (Egitech)</span>
@@ -190,48 +198,60 @@
 
     <div class="live-banner">
       <div>
-        <h2>📱 Trải Nghiệm Ứng Dụng Mobile Trực Tiếp</h2>
-        <p>Giao diện Responsive chuẩn màn hình di động, tương tác vuốt chạm, lưu trữ cục bộ in-app.</p>
+        <h2>📱 Quy Trình Thực Thi Team Agent: 4 Bước Liên Hoàn</h2>
+        <p><strong>BA lên ý tưởng ➔ Dev lên kiến trúc ➔ Dev code ➔ Test & Đóng gói</strong></p>
       </div>
-      <a href="http://192.168.1.6:5000" target="_blank" class="btn-live">👉 Mở App Trực Tiếp</a>
+      <a href="https://github.com/songquyen2205/practiceagent1.0" target="_blank" class="btn-live">📂 Xem Source Code GitHub</a>
     </div>
 
-    <!-- Section 1: End-to-End Delivery -->
-    <h2 class="section-title">⚙️ Quy Trình Thực Thi End-to-End (BA Agent Harness v3.0)</h2>
+    <!-- Section 1: End-to-End Delivery chuẩn 4 bước -->
+    <h2 class="section-title">⚙️ Quy Trình Thực Thi End-to-End Qua Team Agent</h2>
     <div class="grid-4">
+      <!-- Bước 1 -->
       <div class="card">
-        <h3>1. Khởi Tạo & As-Is / To-Be</h3>
+        <span class="card-step">Bước 1 • BA Agent</span>
+        <h3>BA Lên Ý Tưởng & Đặc Tả</h3>
         <ul>
-          <li><strong>Bối cảnh:</strong> Thầy cô lớn tuổi khó nhớ hết công việc từng bạn; họp lớp phải hỏi lại.</li>
-          <li><strong>Yêu cầu:</strong> App mobile lưu bút ghi nhận hành trình học ĐH nào, làm cty nào, đổi việc thì cập nhật.</li>
-          <li><strong>Baseline:</strong> Lập hồ sơ <code>SRS.md</code> và quyết định kiến trúc <code>DECISIONS.md</code>.</li>
+          <li><strong>Ý tưởng bài toán:</strong> Thầy cô lớn tuổi khó nhớ hết công việc từng bạn; mỗi lần gặp lại phải hỏi lại từ đầu.</li>
+          <li><strong>Mục tiêu:</strong> App di động lưu bút hoài niệm để từng bạn tự cập nhật hành trình học vấn & công việc khi đổi việc.</li>
+          <li><strong>Chức năng:</strong> Danh bạ 24 bạn CT1619, Timeline sự nghiệp, Bảng tin họp lớp & thăm thầy cô 20/11.</li>
+          <li><strong>Đầu ra:</strong> Lập tài liệu đặc tả <code>SRS.md</code> chuẩn ISO 29148.</li>
         </ul>
       </div>
 
+      <!-- Bước 2 -->
       <div class="card">
-        <h3>2. Thiết Kế Kiến Trúc & Data</h3>
+        <span class="card-step">Bước 2 • Tech Lead Agent</span>
+        <h3>Dev Lên Kiến Trúc</h3>
         <ul>
-          <li><strong>Không BE:</strong> Lưu trữ 100% bằng <code>AsyncStorage</code> local in-app, bảo mật riêng tư cho lớp.</li>
-          <li><strong>Data Model:</strong> Quản lý Member, TimelineMilestone (học vấn & sự nghiệp), ClassEvent.</li>
-          <li><strong>Sync JSON:</strong> Xuất/nhập gói dữ liệu để lớp chia sẻ qua Zalo/AirDrop.</li>
+          <li><strong>Kiến trúc Không Backend:</strong> Lưu trữ 100% cục bộ bằng <code>AsyncStorage</code> in-app, bảo mật riêng tư tuyệt đối cho lớp học, không tốn chi phí server.</li>
+          <li><strong>Cơ chế Backup/Sync:</strong> Cho phép Xuất/Nhập dữ liệu qua file JSON để gửi qua Zalo/AirDrop.</li>
+          <li><strong>Data Model:</strong> Chuẩn hoá TypeScript (Member, Milestone, ClassEvent).</li>
+          <li><strong>Đầu ra:</strong> Ban hành quyết định tại <code>DECISIONS.md</code>.</li>
         </ul>
       </div>
 
+      <!-- Bước 3 -->
       <div class="card">
-        <h3>3. Lập Trình React Native Mobile</h3>
+        <span class="card-step">Bước 3 • Mobile Dev Agent</span>
+        <h3>Dev Code Sản Phẩm</h3>
         <ul>
-          <li><strong>Tech Stack:</strong> React Native Expo, TypeScript 100%.</li>
-          <li><strong>Style:</strong> Nostalgic Fresh (màu giấy vintage kraft ấm áp, thẻ kẹp washi tape, polaroid).</li>
-          <li><strong>Nâng cấp SDK 58:</strong> Tương thích hoàn toàn với Expo Go phiên bản mới nhất trên iOS/Android.</li>
+          <li><strong>Công nghệ:</strong> React Native Expo, TypeScript 100%. Nâng cấp <strong>SDK 58.0.0</strong> mới nhất.</li>
+          <li><strong>UI Nostalgic Fresh:</strong> Phong cách giấy vintage kraft ấm áp, thẻ kẹp polaroid, washi tape.</li>
+          <li><strong>Phát triển 4 màn hình:</strong> Danh bạ lưu bút, Hành trình của tôi, Form cập nhật khi đổi việc, Bảng tin sự kiện.</li>
+          <li><strong>Dữ liệu CT1619:</strong> Tích hợp đủ 24 bạn (Song Quyên: Lớp trưởng & BA tại Egitech).</li>
         </ul>
       </div>
 
+      <!-- Bước 4 -->
       <div class="card">
-        <h3>4. Fake Data Chuẩn CT1619 (24 Người)</h3>
+        <span class="card-step">Bước 4 • QC & DevOps Agent</span>
+        <h3>Test & Đóng Gói</h3>
         <ul>
-          <li>Đồng bộ chính xác từ danh sách kỷ niệm <code>CT1619</code>.</li>
-          <li><strong>Lớp trưởng:</strong> Song Quyên (Business Analyst tại Egitech).</li>
-          <li>Thầy Chủ Nhiệm và 22 bạn bè với đầy đủ trường ĐH, công ty, châm ngôn lưu bút.</li>
+          <li><strong>Kiểm thử Logic:</strong> Biên dịch <code>tsc --noEmit</code> đạt 100% không lỗi kiểu dữ liệu.</li>
+          <li><strong>Kiểm thử UI/UX:</strong> Mô phỏng kích thước màn hình iPhone thực tế (viewport 412x892), kiểm tra vuốt chạm mượt mà.</li>
+          <li><strong>Chụp ảnh UI:</strong> Tự động capture bộ ảnh thực tế 4 màn hình chính của Mobile App.</li>
+          <li><strong>Đóng gói:</strong> Push lên GitHub repo độc lập và tự động deploy website showcase.</li>
         </ul>
       </div>
     </div>
@@ -261,7 +281,7 @@
     </div>
 
     <footer>
-      Dự án thực hiện bởi <strong>Song Quyên (BA)</strong> phối hợp cùng <strong>AI Agent Pair Programming</strong> theo chỉ đạo training của anh Công.<br>
+      Dự án thực hiện bởi <strong>Song Quyên (BA)</strong> phối hợp cùng <strong>Team AI Agent</strong> theo chương trình training của <strong>anh Công</strong>.<br>
       © 2026 Tập thể Lớp CT1619 — Egitech Technology.
     </footer>
   </div>
