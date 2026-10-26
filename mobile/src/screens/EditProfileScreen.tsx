@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
   milestonePeriod: {
     fontSize: 11,
     fontWeight: '700',
-    color: theme.colors.accentAmber,
+    color: theme.colors.accentWarm,
   },
   currentTag: {
     fontSize: 10,

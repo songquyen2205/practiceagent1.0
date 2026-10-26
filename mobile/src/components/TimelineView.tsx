@@ -11,7 +11,7 @@ export const TimelineView: React.FC<Props> = ({ milestones }) => {
   if (!milestones || milestones.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>Chưa có mốc hành trình nào.</Text>
+        <Text style={styles.emptyText}>Chưa có mốc hành trình nào được ghi lại.</Text>
       </View>
     );
   }
@@ -23,49 +23,58 @@ export const TimelineView: React.FC<Props> = ({ milestones }) => {
         const isEdu = item.type === 'education';
 
         return (
-          <View key={item.id || index} style={styles.row}>
-            {/* Axis Node & Line */}
-            <View style={styles.axis}>
+          <View key={item.id || index} style={styles.stepRow}>
+            {/* Cột trục Timeline */}
+            <View style={styles.axisCol}>
               <View
                 style={[
-                  styles.dot,
-                  item.isCurrent && styles.dotCurrent,
-                  isEdu && styles.dotEdu,
+                  styles.nodeCircle,
+                  item.isCurrent && styles.nodeCircleCurrent,
+                  isEdu && styles.nodeCircleEdu,
                 ]}
-              />
-              {!isLast && <View style={styles.line} />}
+              >
+                <Text style={styles.nodeIcon}>
+                  {item.isCurrent ? '⭐' : isEdu ? '🎓' : '💼'}
+                </Text>
+              </View>
+              {!isLast && <View style={styles.axisLine} />}
             </View>
 
-            {/* Content Card */}
-            <View style={styles.card}>
-              <View style={styles.header}>
-                <View style={styles.badgeRow}>
-                  <View style={[styles.periodBadge, item.isCurrent && styles.periodBadgeCurrent]}>
-                    <Text style={[styles.periodText, item.isCurrent && styles.periodTextCurrent]}>
-                      {item.period}
-                    </Text>
-                  </View>
-                  <View style={styles.typeBadge}>
-                    <Text style={styles.typeText}>{isEdu ? 'Học vấn' : 'Sự nghiệp'}</Text>
-                  </View>
+            {/* Thẻ nội dung mốc thời gian */}
+            <View style={styles.contentCard}>
+              <View style={styles.badgeRow}>
+                <View
+                  style={[
+                    styles.periodBadge,
+                    item.isCurrent && styles.periodBadgeCurrent,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.periodText,
+                      item.isCurrent && styles.periodTextCurrent,
+                    ]}
+                  >
+                    {item.period}
+                  </Text>
                 </View>
 
                 {item.isCurrent && (
                   <View style={styles.activeTag}>
-                    <Text style={styles.activeTagText}>Hiện tại</Text>
+                    <Text style={styles.activeTagText}>Đang làm / Đang học</Text>
                   </View>
                 )}
               </View>
 
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.subtitle}>{item.subtitle}</Text>
+              <Text style={styles.titleText}>{item.title}</Text>
+              <Text style={styles.subtitleText}>{item.subtitle}</Text>
 
               {item.location ? (
-                <Text style={styles.location}>{item.location}</Text>
+                <Text style={styles.locationText}>📍 {item.location}</Text>
               ) : null}
 
               {item.description ? (
-                <Text style={styles.description}>{item.description}</Text>
+                <Text style={styles.descText}>{item.description}</Text>
               ) : null}
             </View>
           </View>
@@ -77,127 +86,122 @@ export const TimelineView: React.FC<Props> = ({ milestones }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: 8,
   },
-  emptyContainer: {
-    padding: theme.spacing.lg,
-    backgroundColor: theme.colors.cardBackground,
-    borderRadius: theme.borderRadius.md,
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.textMuted,
-  },
-  row: {
+  stepRow: {
     flexDirection: 'row',
+    marginBottom: 16,
   },
-  axis: {
-    width: 24,
+  axisCol: {
     alignItems: 'center',
+    width: 36,
   },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme.colors.cardBorderHover,
-    marginTop: 6,
+  nodeCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#FAF5EE',
+    borderWidth: 2,
+    borderColor: '#C8BEAF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 2,
   },
-  dotCurrent: {
-    backgroundColor: theme.colors.accentEmerald,
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+  nodeCircleEdu: {
+    borderColor: theme.colors.accentBlue,
+    backgroundColor: '#EEF6FA',
   },
-  dotEdu: {
-    backgroundColor: theme.colors.primary,
+  nodeCircleCurrent: {
+    borderColor: theme.colors.primary,
+    backgroundColor: '#E8F5EC',
+    shadowColor: theme.colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  line: {
+  nodeIcon: {
+    fontSize: 14,
+  },
+  axisLine: {
     flex: 1,
-    width: 1.5,
-    backgroundColor: theme.colors.cardBorder,
-    marginVertical: 4,
+    width: 2,
+    backgroundColor: '#DFD7CA',
+    marginTop: 4,
   },
-  card: {
+  contentCard: {
     flex: 1,
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 12,
+    marginLeft: 10,
     borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    borderRadius: theme.borderRadius.md,
-    padding: theme.spacing.md,
-    marginLeft: theme.spacing.sm,
-    marginBottom: theme.spacing.md,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
+    borderColor: '#EBE3D5',
   },
   badgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 6,
+    flexWrap: 'wrap',
+    gap: 6,
   },
   periodBadge: {
-    backgroundColor: theme.colors.surfaceSubtle,
+    backgroundColor: '#F3EFE6',
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: theme.borderRadius.xs,
-    marginRight: 6,
+    borderRadius: 6,
   },
   periodBadgeCurrent: {
-    backgroundColor: theme.colors.accentEmeraldBg,
+    backgroundColor: theme.colors.badgeCurrent,
   },
   periodText: {
-    fontSize: theme.typography.sizes.caption,
+    fontSize: 11,
     color: theme.colors.textSecondary,
-    fontWeight: theme.typography.weights.medium,
+    fontWeight: '600',
   },
   periodTextCurrent: {
-    color: theme.colors.accentEmerald,
-  },
-  typeBadge: {
-    backgroundColor: theme.colors.surfaceSubtle,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: theme.borderRadius.xs,
-  },
-  typeText: {
-    fontSize: theme.typography.sizes.small,
-    color: theme.colors.textMuted,
+    color: theme.colors.badgeCurrentText,
   },
   activeTag: {
-    backgroundColor: theme.colors.accentEmeraldBg,
+    backgroundColor: '#FFF2E8',
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: theme.borderRadius.xs,
+    borderRadius: 4,
   },
   activeTagText: {
-    fontSize: theme.typography.sizes.small,
-    color: theme.colors.accentEmerald,
-    fontWeight: theme.typography.weights.semibold,
+    fontSize: 10,
+    color: '#D87A56',
+    fontWeight: 'bold',
   },
-  title: {
-    fontSize: theme.typography.sizes.heading,
-    fontWeight: theme.typography.weights.semibold,
+  titleText: {
+    fontSize: 15,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
   },
-  subtitle: {
-    fontSize: theme.typography.sizes.body,
+  subtitleText: {
+    fontSize: 13,
     color: theme.colors.textSecondary,
     marginTop: 2,
   },
-  location: {
-    fontSize: theme.typography.sizes.caption,
+  locationText: {
+    fontSize: 12,
     color: theme.colors.textMuted,
     marginTop: 4,
   },
-  description: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textSecondary,
+  descText: {
+    fontSize: 12,
+    color: '#655B51',
+    lineHeight: 17,
     marginTop: 6,
-    lineHeight: 18,
+    fontStyle: 'italic',
+  },
+  emptyContainer: {
+    padding: 16,
+    alignItems: 'center',
+  },
+  emptyText: {
+    color: theme.colors.textMuted,
+    fontStyle: 'italic',
+    fontSize: 13,
   },
 });

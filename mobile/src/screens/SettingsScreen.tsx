@@ -28,8 +28,8 @@ export const SettingsScreen: React.FC<Props> = ({ data, onImportData, onResetDat
     setJsonText(raw);
     setShowJsonBox(true);
     Alert.alert(
-      'Xuất Dữ Liệu Thành Công',
-      'Chuỗi JSON lưu trữ đã sẵn sàng bên dưới để bạn sao chép và lưu trữ hoặc gửi qua tin nhắn.'
+      'Xuất Dữ Liệu Thành Công!',
+      'Dữ liệu sổ lưu bút đã hiển thị bên dưới. Bạn có thể sao chép chuỗi này và gửi qua tin nhắn Zalo/Messenger của lớp để các bạn khác dán vào máy của họ hoặc thầy cô.'
     );
   };
 
@@ -44,9 +44,9 @@ export const SettingsScreen: React.FC<Props> = ({ data, onImportData, onResetDat
         throw new Error('Dữ liệu không đúng cấu trúc Sổ Lưu Bút');
       }
       onImportData(parsed);
-      Alert.alert('Đồng bộ thành công', `Đã cập nhật ${parsed.members.length} thành viên vào ứng dụng.`);
+      Alert.alert('Đồng bộ thành công!', `Đã nạp ${parsed.members.length} thành viên vào sổ lưu bút.`);
     } catch (e: any) {
-      Alert.alert('Lỗi nhập dữ liệu', 'Chuỗi định dạng không hợp lệ: ' + e.message);
+      Alert.alert('Lỗi nhập dữ liệu', 'Chuỗi sao chép không hợp lệ: ' + e.message);
     }
   };
 
@@ -57,77 +57,114 @@ export const SettingsScreen: React.FC<Props> = ({ data, onImportData, onResetDat
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerSubtitle}>Hệ Thống</Text>
-          <Text style={styles.headerTitle}>Cài Đặt & Sao Lưu</Text>
+          <Text style={styles.headerSubtitle}>Lưu trữ & Chia sẻ</Text>
+          <Text style={styles.headerTitle}>⚙️ Đồng Bộ In-App & Sổ Tay</Text>
+        </View>
+
+        {/* Card Giới thiệu cơ chế Không BE */}
+        <View style={styles.infoCard}>
+          <Text style={styles.infoTitle}>🔒 Chế độ In-App Bảo Mật & Độc Lập</Text>
+          <Text style={styles.infoDesc}>
+            Ứng dụng hoạt động 100% offline trên máy của bạn, không gửi thông tin lên bất kỳ máy chủ bên ngoài nào.
+          </Text>
+          <Text style={[styles.infoDesc, { marginTop: 6 }]}>
+            💡 Để chia sẻ danh bạ mới nhất cho thầy cô hoặc nhóm lớp, bạn chỉ cần bấm <Text style={styles.boldText}>"Xuất Dữ Liệu"</Text> và gửi file/văn bản qua Zalo hoặc AirDrop.
+          </Text>
         </View>
 
         {/* Thông tin lớp học */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Thông Tin Tập Thể</Text>
+          <Text style={styles.cardHeading}>🏫 Thông Tin Lớp Học</Text>
           <View style={styles.row}>
-            <Text style={styles.label}>Lớp</Text>
-            <Text style={styles.value}>{data.className}</Text>
+            <Text style={styles.rowLabel}>Tên tập thể:</Text>
+            <Text style={styles.rowValue}>{data.className}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Niên khóa</Text>
-            <Text style={styles.value}>{data.schoolYear}</Text>
+            <Text style={styles.rowLabel}>Niên khoá:</Text>
+            <Text style={styles.rowValue}>{data.schoolYear}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Chủ nhiệm</Text>
-            <Text style={styles.value}>{data.homeroomTeacher}</Text>
+            <Text style={styles.rowLabel}>GVCN Kính yêu:</Text>
+            <Text style={styles.rowValue}>{data.homeroomTeacher}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Tổng thành viên</Text>
-            <Text style={styles.value}>{data.members.length} người</Text>
+            <Text style={styles.rowLabel}>Tổng số thành viên:</Text>
+            <Text style={styles.rowValue}>{data.members.length} người</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.rowLabel}>Số sự kiện đã lên lịch:</Text>
+            <Text style={styles.rowValue}>{data.events.length} sự kiện</Text>
           </View>
         </View>
 
-        {/* Chức năng sao lưu & đồng bộ offline */}
+        {/* Chia sẻ & Sao lưu */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Sao Lưu & Chia Sẻ</Text>
-          <Text style={styles.cardDesc}>
-            Ứng dụng hoạt động độc lập không cần máy chủ. Dữ liệu được lưu trữ an toàn trong máy và có thể xuất thành tệp văn bản JSON để chia sẻ.
-          </Text>
+          <Text style={styles.cardHeading}>📤 Chia Sẻ Cập Nhật Cho Lớp</Text>
 
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.actionBtn} onPress={handleExportJson}>
-              <Text style={styles.actionBtnText}>Xuất JSON Sao Lưu</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.actionBtn} onPress={handleExportJson}>
+            <Text style={styles.actionBtnIcon}>📋</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.actionBtnTitle}>Xuất Gói Dữ Liệu Sổ Lưu Bút</Text>
+              <Text style={styles.actionBtnSub}>Tạo chuỗi sao chép gửi cho thầy cô hoặc bạn bè</Text>
+            </View>
+          </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.actionBtn, styles.actionBtnOutline]} onPress={() => setShowJsonBox(!showJsonBox)}>
-              <Text style={[styles.actionBtnText, styles.actionBtnOutlineText]}>
-                {showJsonBox ? 'Ẩn Hộp Dữ Liệu' : 'Nhập Dữ Liệu'}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={[styles.actionBtn, { marginTop: 10 }]}
+            onPress={() => setShowJsonBox(!showJsonBox)}
+          >
+            <Text style={styles.actionBtnIcon}>📥</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.actionBtnTitle}>Nhập Cập Nhật Từ Bạn Bè</Text>
+              <Text style={styles.actionBtnSub}>Dán gói cập nhật mới từ nhóm lớp</Text>
+            </View>
+          </TouchableOpacity>
 
           {showJsonBox && (
             <View style={styles.jsonBoxContainer}>
-              <Text style={styles.jsonBoxLabel}>Dán hoặc sao chép mã dữ liệu:</Text>
+              <Text style={styles.jsonBoxLabel}>Khung dữ liệu JSON:</Text>
               <TextInput
                 style={styles.jsonInput}
-                multiline
-                numberOfLines={6}
                 value={jsonText}
                 onChangeText={setJsonText}
-                placeholder="Dán chuỗi JSON lưu bút vào đây..."
+                multiline
+                numberOfLines={8}
+                placeholder="Dán nội dung JSON vào đây rồi bấm Nạp Dữ Liệu..."
               />
-              <TouchableOpacity style={styles.importBtn} onPress={handleImportJson}>
-                <Text style={styles.importBtnText}>Áp Dụng Dữ Liệu</Text>
+              <TouchableOpacity style={styles.importSubmitBtn} onPress={handleImportJson}>
+                <Text style={styles.importSubmitText}>🚀 Nạp Cập Nhật Này Vào Máy</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
-        {/* Khôi phục mặc định */}
+        {/* Khôi phục gốc */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Khôi Phục Dữ Liệu</Text>
-          <Text style={styles.cardDesc}>
-            Đặt lại toàn bộ danh sách 24 thành viên CT1619 về dữ liệu nguyên bản của lớp.
-          </Text>
-          <TouchableOpacity style={styles.resetBtn} onPress={onResetData}>
-            <Text style={styles.resetBtnText}>Khôi phục dữ liệu ban đầu</Text>
+          <Text style={styles.cardHeading}>🔄 Đặt Lại Dữ Liệu</Text>
+          <TouchableOpacity
+            style={styles.resetBtn}
+            onPress={() => {
+              Alert.alert(
+                'Khôi phục dữ liệu ban đầu?',
+                'Hành động này sẽ tải lại danh sách kỷ niệm mẫu 12A1 cùng cô Phương.',
+                [
+                  { text: 'Huỷ', style: 'cancel' },
+                  { text: 'Đồng ý', style: 'destructive', onPress: onResetData },
+                ]
+              );
+            }}
+          >
+            <Text style={styles.resetBtnText}>Tải Lại Dữ Liệu Mẫu Lớp Học</Text>
           </TouchableOpacity>
+        </View>
+
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>
+            Sổ Lưu Bút Kỷ Yếu Mobile v1.0.0
+          </Text>
+          <Text style={styles.footerSubText}>
+            Thiết kế dành tặng thầy cô và những người bạn cùng lớp 🌿
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -140,132 +177,160 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   container: {
-    padding: theme.spacing.lg,
-    paddingBottom: theme.spacing.xxxl,
+    padding: 16,
+    paddingBottom: 40,
   },
   header: {
-    paddingVertical: theme.spacing.md,
+    marginBottom: 14,
   },
   headerSubtitle: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textMuted,
-    fontWeight: theme.typography.weights.medium,
+    fontSize: 12,
+    color: theme.colors.accentWarm,
+    fontWeight: '600',
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
   },
   headerTitle: {
-    fontSize: theme.typography.sizes.hero,
-    fontWeight: theme.typography.weights.bold,
+    fontSize: 20,
+    fontWeight: '800',
     color: theme.colors.textPrimary,
-    marginTop: 2,
+  },
+  infoCard: {
+    backgroundColor: '#F3EFE6',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: theme.colors.primary,
+  },
+  infoTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: theme.colors.textPrimary,
+    marginBottom: 4,
+  },
+  infoDesc: {
+    fontSize: 12,
+    color: theme.colors.textSecondary,
+    lineHeight: 17,
+  },
+  boldText: {
+    fontWeight: '700',
+    color: theme.colors.primary,
   },
   card: {
-    backgroundColor: theme.colors.cardBackground,
-    borderRadius: theme.borderRadius.lg,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    padding: theme.spacing.lg,
-    marginBottom: theme.spacing.lg,
-    ...theme.shadows.subtle,
   },
-  cardTitle: {
-    fontSize: theme.typography.sizes.heading,
-    fontWeight: theme.typography.weights.semibold,
+  cardHeading: {
+    fontSize: 15,
+    fontWeight: '800',
     color: theme.colors.textPrimary,
-    marginBottom: theme.spacing.md,
-  },
-  cardDesc: {
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.textSecondary,
-    lineHeight: 20,
-    marginBottom: theme.spacing.md,
+    marginBottom: 12,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8,
+    paddingVertical: 6,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
+    borderBottomColor: '#F7F3EC',
   },
-  label: {
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.textMuted,
+  rowLabel: {
+    fontSize: 13,
+    color: theme.colors.textSecondary,
   },
-  value: {
-    fontSize: theme.typography.sizes.body,
+  rowValue: {
+    fontSize: 13,
+    fontWeight: '600',
     color: theme.colors.textPrimary,
-    fontWeight: theme.typography.weights.medium,
-  },
-  buttonRow: {
-    flexDirection: 'row',
   },
   actionBtn: {
-    flex: 1,
-    backgroundColor: theme.colors.primary,
-    paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginRight: theme.spacing.sm,
-  },
-  actionBtnText: {
-    color: '#FFFFFF',
-    fontSize: theme.typography.sizes.caption,
-    fontWeight: theme.typography.weights.semibold,
-  },
-  actionBtnOutline: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#FAF7F2',
+    padding: 12,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    marginRight: 0,
-    marginLeft: theme.spacing.sm,
+    borderColor: '#ECE3D5',
   },
-  actionBtnOutlineText: {
+  actionBtnIcon: {
+    fontSize: 22,
+    marginRight: 12,
+  },
+  actionBtnTitle: {
+    fontSize: 13,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
   },
+  actionBtnSub: {
+    fontSize: 11,
+    color: theme.colors.textMuted,
+    marginTop: 2,
+  },
   jsonBoxContainer: {
-    marginTop: theme.spacing.md,
-    paddingTop: theme.spacing.md,
+    marginTop: 12,
+    paddingTop: 12,
     borderTopWidth: 1,
     borderTopColor: theme.colors.divider,
   },
   jsonBoxLabel: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textMuted,
+    fontSize: 12,
+    fontWeight: '600',
+    color: theme.colors.textSecondary,
     marginBottom: 6,
   },
   jsonInput: {
-    backgroundColor: theme.colors.inputBg,
+    backgroundColor: '#F9F7F2',
     borderWidth: 1,
-    borderColor: theme.colors.inputBorder,
-    borderRadius: theme.borderRadius.md,
-    padding: theme.spacing.md,
-    fontSize: theme.typography.sizes.caption,
-    fontFamily: theme.typography.fontFamily.mono,
+    borderColor: '#DFD8CC',
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 11,
+    color: '#333',
     height: 120,
     textAlignVertical: 'top',
+    fontFamily: 'monospace',
   },
-  importBtn: {
-    backgroundColor: theme.colors.accentEmerald,
+  importSubmitBtn: {
+    backgroundColor: theme.colors.primary,
     paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: 8,
     alignItems: 'center',
-    marginTop: theme.spacing.sm,
+    marginTop: 8,
   },
-  importBtnText: {
-    color: '#FFFFFF',
-    fontSize: theme.typography.sizes.caption,
-    fontWeight: theme.typography.weights.semibold,
+  importSubmitText: {
+    color: '#FFF',
+    fontSize: 13,
+    fontWeight: '700',
   },
   resetBtn: {
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: 8,
     alignItems: 'center',
+    backgroundColor: '#FDF1F0',
+    borderWidth: 1,
+    borderColor: '#F8D7DA',
   },
   resetBtnText: {
-    color: theme.colors.accentRose,
-    fontSize: theme.typography.sizes.caption,
-    fontWeight: theme.typography.weights.medium,
+    color: '#C0392B',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  footer: {
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  footerText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: theme.colors.textSecondary,
+  },
+  footerSubText: {
+    fontSize: 11,
+    color: theme.colors.textMuted,
+    marginTop: 3,
   },
 });

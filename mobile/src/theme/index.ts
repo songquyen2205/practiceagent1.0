@@ -1,53 +1,41 @@
 export const theme = {
   colors: {
-    // Modern iOS / Clean Notion Canvas
-    background: '#F8F9FA',        // Neutral 50 - Nền canvas sạch sẽ chuẩn iOS/macOS
-    cardBackground: '#FFFFFF',    // Pure White - Thẻ nổi bật, sáng rõ
-    cardBorder: '#E5E7EB',        // Gray 200 - Viền mảnh tinh tế 1px
-    cardBorderHover: '#D1D5DB',   // Gray 300
+    // Nền giấy vintage & hoài niệm tươi sáng
+    background: '#FAF6F0',        // Màu giấy ngà ấm
+    cardBackground: '#FFFFFF',    // Màu thẻ trắng sữa
+    cardBorder: '#E8DFD3',        // Viền thẻ màu giấy thủ công
+    pinTape: '#F3D5B5',           // Màu băng keo washi trang trí
     
-    // Text Hierarchy (Độ tương phản cao, chuẩn Apple typography)
-    textPrimary: '#111827',       // Gray 900 - Đen sâu, sắc nét
-    textSecondary: '#4B5563',     // Gray 600 - Xám ghi trung tính
-    textMuted: '#9CA3AF',         // Gray 400 - Xám mờ phụ trợ
+    // Tông chữ
+    textPrimary: '#2D2824',       // Nâu đen ấm, êm mắt cho thầy cô
+    textSecondary: '#6B6055',     // Nâu xám mềm
+    textMuted: '#9E9489',         // Ghi xám nhẹ
     
-    // Accent Colors (Apple System / Notion Indigo & Sage)
-    primary: '#1D4ED8',           // iOS Blue 700 - Nhã nhặn, chuẩn mực
-    primaryLight: '#EFF6FF',      // Blue 50 - Tint nền mềm mại
-    primaryBorder: '#BFDBFE',     // Blue 200
+    // Màu nhấn (Accents) hoài niệm mà fresh
+    primary: '#4A6B53',           // Xanh rêu phấn / Bảng đen xưa dịu mát
+    primaryLight: '#E8F0EA',      // Nền xanh pastel
+    accentWarm: '#D87A56',        // Cam đất / Màu gạch nung học trò
+    accentYellow: '#EBB44D',      // Vàng hoa điệp / nắng sân trường
+    accentBlue: '#4F7C96',        // Xanh mực máy
     
-    accentEmerald: '#059669',     // Emerald 600 - Trạng thái Đang học / Đang làm
-    accentEmeraldBg: '#ECFDF5',   // Emerald 50
-    accentAmber: '#D97706',       // Amber 600 - Điểm nhấn sự kiện
-    accentAmberBg: '#FFFBEB',     // Amber 50
-    accentRose: '#E11D48',        // Rose 600
-    
-    // Status & Utility
-    badgeCurrent: '#ECFDF5',
-    badgeCurrentText: '#065F46',
-    divider: '#F3F4F6',           // Gray 100 - Đường phân cách cực nhẹ
-    surfaceSubtle: '#F3F4F6',     // Gray 100
-    inputBg: '#FFFFFF',
-    inputBorder: '#D1D5DB',
+    // Trạng thái
+    badgeCurrent: '#E1EFE6',      // Đang công tác / đang học
+    badgeCurrentText: '#2B6140',
+    divider: '#EFE9DE',
+    surfaceSubtle: '#F4EFEA',
   },
   typography: {
     fontFamily: {
-      sans: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-      mono: 'SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+      serif: 'Georgia',
+      sans: 'System',
     },
     sizes: {
-      hero: 26,
+      hero: 24,
       title: 20,
-      heading: 16,
-      body: 14,
-      caption: 12,
+      heading: 17,
+      body: 15,
+      caption: 13,
       small: 11,
-    },
-    weights: {
-      regular: '400' as const,
-      medium: '500' as const,
-      semibold: '600' as const,
-      bold: '700' as const,
     }
   },
   spacing: {
@@ -57,36 +45,26 @@ export const theme = {
     lg: 16,
     xl: 20,
     xxl: 24,
-    xxxl: 32,
   },
   borderRadius: {
-    xs: 4,
     sm: 6,
-    md: 8,
-    lg: 12,
-    xl: 16,
-    pill: 9999,
+    md: 10,
+    lg: 16,
+    pill: 999,
   },
   shadows: {
-    subtle: {
-      shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.04,
-      shadowRadius: 3,
-      elevation: 1,
-    },
     card: {
-      shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.05,
-      shadowRadius: 4,
+      shadowColor: '#4A3E31',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.07,
+      shadowRadius: 5,
       elevation: 2,
     },
-    elevated: {
-      shadowColor: '#000000',
+    hover: {
+      shadowColor: '#4A3E31',
       shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.08,
-      shadowRadius: 12,
+      shadowOpacity: 0.12,
+      shadowRadius: 8,
       elevation: 4,
     }
   }
