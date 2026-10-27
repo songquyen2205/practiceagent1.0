@@ -11,14 +11,22 @@ export interface TimelineMilestone {
   isCurrent?: boolean;    // Đang học / Đang làm
 }
 
+export interface PhotoItem {
+  id: string;
+  url: string;
+  caption?: string;
+  year?: string;
+}
+
 export interface Member {
   id: string;
   name: string;
   nickname?: string;
   username?: string;
   password?: string;
-  avatarText: string;     // Chữ viết tắt hoặc Emoji
-  avatarBgColor: string;  // Màu nền ấm áp
+  avatarUrl?: string;     // Ảnh chân dung chất lượng cao
+  avatarText: string;     // Chữ viết tắt fallback
+  avatarBgColor: string;  // Màu nền fallback
   role: RoleType;         // Thầy cô hoặc Học sinh
   subjectOrMajor?: string;// Giáo viên bộ môn gì hoặc Ngành nghề chính
   phone?: string;
@@ -28,6 +36,7 @@ export interface Member {
   currentCity?: string;   // Nơi ở hiện tại
   memorableQuote: string; // Câu nói kỷ niệm / Lời gửi thầy cô và lớp
   timelines: TimelineMilestone[];
+  photos?: PhotoItem[];   // Bộ sưu tập ảnh cá nhân / kỷ niệm
   updatedAt: string;
 }
 
@@ -43,6 +52,7 @@ export interface ClassEvent {
   isRegistered?: boolean;
   isJoined?: boolean;
   category: 'reunion' | 'visit_teacher' | 'anniversary' | 'informal';
+  imageUrl?: string;      // Ảnh bìa sự kiện
   createdAt: string;
 }
 
@@ -53,4 +63,5 @@ export interface LuuButData {
   members: Member[];
   events: ClassEvent[];
   myProfileId: string;
+  classPhotos?: PhotoItem[]; // Ảnh chung của tập thể lớp
 }

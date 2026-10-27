@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Member } from '../types';
 import { theme } from '../theme';
 
@@ -22,16 +22,24 @@ export const MemberCard: React.FC<Props> = ({ member, onPress, isMyProfile }) =>
 
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={onPress}
       style={[styles.card, isTeacher && styles.cardTeacher]}
     >
       <View style={styles.cardHeader}>
-        <View style={[styles.avatarBox, isTeacher ? styles.avatarTeacher : styles.avatarStudent]}>
-          <Text style={[styles.avatarText, isTeacher ? styles.avatarTextTeacher : styles.avatarTextStudent]}>
-            {isTeacher ? 'GV' : getInitials(member.name)}
-          </Text>
-        </View>
+        {member.avatarUrl ? (
+          <Image
+            source={{ uri: member.avatarUrl }}
+            style={styles.avatarImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={[styles.avatarBox, isTeacher ? styles.avatarTeacher : styles.avatarStudent]}>
+            <Text style={[styles.avatarText, isTeacher ? styles.avatarTextTeacher : styles.avatarTextStudent]}>
+              {isTeacher ? 'GV' : getInitials(member.name)}
+            </Text>
+          </View>
+        )}
 
         <View style={styles.headerInfo}>
           <View style={styles.nameRow}>
@@ -52,7 +60,7 @@ export const MemberCard: React.FC<Props> = ({ member, onPress, isMyProfile }) =>
 
           {member.nickname ? (
             <Text style={styles.nickname} numberOfLines={1}>
-              {member.nickname.replace(/[^\w\s\u00C0-\u1EF9]/gi, '').trim()}
+              {member.nickname.trim()}
             </Text>
           ) : null}
         </View>
@@ -76,7 +84,7 @@ export const MemberCard: React.FC<Props> = ({ member, onPress, isMyProfile }) =>
         {member.memorableQuote ? (
           <View style={styles.quoteWrapper}>
             <Text style={styles.quoteText} numberOfLines={2}>
-              "{member.memorableQuote.replace(/[^\w\s\u00C0-\u1EF9.,!?-]/gi, '').trim()}"
+              "{member.memorableQuote.trim()}"
             </Text>
           </View>
         ) : null}
@@ -92,49 +100,55 @@ export const MemberCard: React.FC<Props> = ({ member, onPress, isMyProfile }) =>
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.borderRadius.lg,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
     padding: theme.spacing.lg,
     marginBottom: theme.spacing.md,
+    ...theme.shadows.card,
   },
   cardTeacher: {
-    borderColor: theme.colors.primaryBorder,
-    backgroundColor: '#FAFDFE',
+    borderColor: '#FCD34D',
+    backgroundColor: '#FFFDF9',
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: theme.spacing.md,
   },
+  avatarImage: {
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.full,
+    borderWidth: 1.5,
+    borderColor: theme.colors.cardBorder,
+    backgroundColor: theme.colors.surfaceSubtle,
+    marginRight: theme.spacing.md,
+  },
   avatarBox: {
-    width: 44,
-    height: 44,
-    borderRadius: theme.borderRadius.md,
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: theme.spacing.md,
   },
-  avatarStudent: {
-    backgroundColor: theme.colors.surfaceSubtle,
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-  },
   avatarTeacher: {
-    backgroundColor: theme.colors.primaryLight,
-    borderWidth: 1,
-    borderColor: theme.colors.primaryBorder,
+    backgroundColor: theme.colors.badgeTeacherBg,
+  },
+  avatarStudent: {
+    backgroundColor: theme.colors.badgeStudentBg,
   },
   avatarText: {
-    fontSize: theme.typography.sizes.body,
-    fontWeight: '600',
-  },
-  avatarTextStudent: {
-    color: theme.colors.textPrimary,
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: '700',
   },
   avatarTextTeacher: {
-    color: theme.colors.primary,
+    color: theme.colors.badgeTeacherText,
+  },
+  avatarTextStudent: {
+    color: theme.colors.badgeStudentText,
   },
   headerInfo: {
     flex: 1,
@@ -148,32 +162,34 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: theme.colors.textPrimary,
     marginRight: theme.spacing.sm,
+    letterSpacing: -0.2,
   },
   teacherBadge: {
-    backgroundColor: theme.colors.primaryLight,
+    backgroundColor: theme.colors.badgeTeacherBg,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: theme.borderRadius.xs,
+    borderRadius: theme.borderRadius.pill,
+    marginRight: theme.spacing.xs,
   },
   teacherBadgeText: {
+    color: theme.colors.badgeTeacherText,
     fontSize: theme.typography.sizes.small,
-    fontWeight: '500',
-    color: theme.colors.primary,
+    fontWeight: '600',
   },
   myBadge: {
-    backgroundColor: theme.colors.accentEmeraldBg,
+    backgroundColor: theme.colors.badgeSelfBg,
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: theme.borderRadius.xs,
+    borderRadius: theme.borderRadius.pill,
   },
   myBadgeText: {
+    color: theme.colors.badgeSelfText,
     fontSize: theme.typography.sizes.small,
-    fontWeight: '500',
-    color: theme.colors.accentEmerald,
+    fontWeight: '600',
   },
   nickname: {
     fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textMuted,
+    color: theme.colors.textSecondary,
     marginTop: 2,
   },
   cardBody: {
@@ -183,25 +199,27 @@ const styles = StyleSheet.create({
   },
   detailRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 4,
+    paddingVertical: 4,
   },
   detailLabel: {
-    width: 95,
     fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
     fontWeight: '500',
   },
   detailValue: {
-    flex: 1,
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.textSecondary,
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textPrimary,
+    fontWeight: '500',
+    maxWidth: '70%',
+    textAlign: 'right',
   },
   quoteWrapper: {
     marginTop: theme.spacing.sm,
-    paddingLeft: theme.spacing.sm,
-    borderLeftWidth: 2,
-    borderLeftColor: theme.colors.cardBorderHover,
+    padding: theme.spacing.sm,
+    backgroundColor: theme.colors.surfaceSubtle,
+    borderRadius: theme.borderRadius.sm,
   },
   quoteText: {
     fontSize: theme.typography.sizes.caption,
@@ -214,16 +232,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: theme.spacing.md,
-    paddingTop: theme.spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.divider,
+    paddingTop: theme.spacing.xs,
   },
   locationText: {
     fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textMuted,
+    color: theme.colors.textSecondary,
+    fontWeight: '500',
   },
   arrowIcon: {
-    fontSize: theme.typography.sizes.body,
+    fontSize: theme.typography.sizes.heading,
     color: theme.colors.textMuted,
+    fontWeight: '600',
   },
 });

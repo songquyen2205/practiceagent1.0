@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Image,
 } from 'react-native';
 import { Member } from '../types';
 import { TimelineView } from '../components/TimelineView';
@@ -27,104 +28,135 @@ export const MemberDetailScreen: React.FC<Props> = ({
 }) => {
   const isTeacher = member.role === 'teacher';
 
+  const getInitials = (name: string) => {
+    if (!name) return 'MB';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       
-      {/* Top Bar navigation */}
+      {/* Top Bar Navigation Clean */}
       <View style={styles.topBar}>
         <TouchableOpacity onPress={onBack} style={styles.backButton}>
-          <Text style={styles.backButtonText}>← Quay lại</Text>
+          <Text style={styles.backButtonText}>← Danh bạ</Text>
         </TouchableOpacity>
-        <Text style={styles.topBarTitle}>Trang Kỷ Yếu Cá Nhân</Text>
+        <Text style={styles.topBarTitle}>Hồ Sơ Kỷ Yếu</Text>
         {isMyProfile && onEdit ? (
           <TouchableOpacity onPress={onEdit} style={styles.editButton}>
-            <Text style={styles.editButtonText}>✏️ Chỉnh sửa</Text>
+            <Text style={styles.editButtonText}>Chỉnh sửa</Text>
           </TouchableOpacity>
         ) : (
-          <View style={{ width: 60 }} />
+          <View style={{ width: 64 }} />
         )}
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        {/* Thẻ chân dung sổ lưu bút */}
+        {/* Profile Card Header */}
         <View style={styles.profileCard}>
-          <View style={[styles.washiTape, isTeacher && styles.washiTapeTeacher]} />
-
           <View style={styles.avatarRow}>
-            <View style={[styles.avatarBox, { backgroundColor: member.avatarBgColor }]}>
-              <Text style={styles.avatarEmoji}>{member.avatarText}</Text>
-            </View>
-            <View style={styles.profileHeaderInfo}>
-              <Text style={styles.memberName}>{member.name}</Text>
-              {member.nickname ? (
-                <Text style={styles.memberNickname}>Biệt danh: "{member.nickname}"</Text>
-              ) : null}
-              <View style={styles.roleBadge}>
-                <Text style={styles.roleBadgeText}>
-                  {isTeacher ? '👩‍🏫 Thầy Cô Kính Yêu' : '🎓 Cựu Học Sinh'}
+            {member.avatarUrl ? (
+              <Image
+                source={{ uri: member.avatarUrl }}
+                style={styles.avatarImage}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={[styles.avatarBox, isTeacher ? styles.avatarTeacher : styles.avatarStudent]}>
+                <Text style={[styles.avatarText, isTeacher ? styles.avatarTextTeacher : styles.avatarTextStudent]}>
+                  {isTeacher ? 'GV' : getInitials(member.name)}
                 </Text>
+              </View>
+            )}
+
+            <View style={styles.profileHeaderInfo}>
+              <View style={styles.nameRow}>
+                <Text style={styles.memberName}>{member.name}</Text>
+                {isMyProfile && (
+                  <View style={styles.myBadge}>
+                    <Text style={styles.myBadgeText}>Tôi</Text>
+                  </View>
+                )}
+              </View>
+
+              {member.nickname ? (
+                <Text style={styles.memberNickname}>Biệt danh: {member.nickname.trim()}</Text>
+              ) : null}
+
+              <View style={styles.roleBadgeContainer}>
+                <View style={isTeacher ? styles.roleBadgeTeacher : styles.roleBadgeStudent}>
+                  <Text style={isTeacher ? styles.roleBadgeTextTeacher : styles.roleBadgeTextStudent}>
+                    {isTeacher ? 'Giáo Viên' : 'Cựu Học Sinh CT1619'}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
 
-          {/* Lời tự sự / Lời nhắn gửi */}
+          {/* Lời gửi gắm kỷ niệm */}
           {member.memorableQuote ? (
             <View style={styles.quoteCard}>
-              <Text style={styles.quoteCardLabel}>💌 Lời gửi thầy cô & bạn bè:</Text>
-              <Text style={styles.quoteCardBody}>"{member.memorableQuote}"</Text>
+              <Text style={styles.quoteCardLabel}>Thông điệp kỷ niệm</Text>
+              <Text style={styles.quoteCardBody}>"{member.memorableQuote.trim()}"</Text>
             </View>
           ) : null}
 
-          {/* Thông tin liên lạc */}
+          {/* Contact Details */}
           <View style={styles.contactSection}>
-            <Text style={styles.sectionTitle}>📬 Thông tin liên hệ</Text>
-            {member.phone ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>📞</Text>
-                <Text style={styles.contactText}>{member.phone}</Text>
-              </View>
-            ) : null}
-            {member.email ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>✉️</Text>
-                <Text style={styles.contactText}>{member.email}</Text>
-              </View>
-            ) : null}
-            {member.zaloOrSocial ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>🌐</Text>
-                <Text style={styles.contactText}>{member.zaloOrSocial}</Text>
-              </View>
-            ) : null}
-            {member.currentCity ? (
-              <View style={styles.contactItem}>
-                <Text style={styles.contactIcon}>📍</Text>
-                <Text style={styles.contactText}>Hiện đang ở: {member.currentCity}</Text>
-              </View>
-            ) : null}
+            <Text style={styles.sectionTitle}>Thông tin liên hệ</Text>
+            
+            <View style={styles.contactGrid}>
+              {member.phone ? (
+                <View style={styles.contactItem}>
+                  <Text style={styles.contactLabel}>Điện thoại</Text>
+                  <Text style={styles.contactValue}>{member.phone}</Text>
+                </View>
+              ) : null}
+
+              {member.email ? (
+                <View style={styles.contactItem}>
+                  <Text style={styles.contactLabel}>Email</Text>
+                  <Text style={styles.contactValue}>{member.email}</Text>
+                </View>
+              ) : null}
+
+              {member.zaloOrSocial ? (
+                <View style={styles.contactItem}>
+                  <Text style={styles.contactLabel}>Mạng xã hội</Text>
+                  <Text style={styles.contactValue}>{member.zaloOrSocial}</Text>
+                </View>
+              ) : null}
+
+              {member.currentCity ? (
+                <View style={styles.contactItem}>
+                  <Text style={styles.contactLabel}>Địa phương</Text>
+                  <Text style={styles.contactValue}>{member.currentCity}</Text>
+                </View>
+              ) : null}
+            </View>
+          </View>
+
+          {/* Current Job Snapshot */}
+          <View style={styles.currentWorkSection}>
+            <Text style={styles.sectionTitle}>Hiện tại</Text>
+            <View style={styles.workCard}>
+              <Text style={styles.workCompany}>{member.currentCompany || 'Đang cập nhật'}</Text>
+              <Text style={styles.workMajor}>{member.subjectOrMajor || 'Chưa ghi rõ'}</Text>
+            </View>
           </View>
         </View>
 
-        {/* Hành trình học tập và làm việc */}
+        {/* Timeline Component */}
         <View style={styles.timelineSection}>
-          <View style={styles.timelineHeader}>
-            <Text style={styles.timelineSectionTitle}>
-              🌱 Hành trình Học vấn & Sự nghiệp
-            </Text>
-            <Text style={styles.timelineSubtitle}>
-              Giúp thầy cô và các bạn tiện theo dõi từng bước đi của bạn
-            </Text>
-          </View>
-
-          <TimelineView milestones={member.timelines} />
+          <Text style={styles.timelineHeaderTitle}>Hành trình học tập & sự nghiệp</Text>
+          <TimelineView timelines={member.timelines} />
         </View>
 
-        <View style={styles.footerNote}>
-          <Text style={styles.footerText}>
-            Trang lưu bút được cập nhật lần cuối: {member.updatedAt}
-          </Text>
-        </View>
+        {/* Bottom Timestamp */}
+        <Text style={styles.updateTimeText}>Cập nhật lần cuối: {member.updatedAt || 'Hôm nay'}</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -137,196 +169,236 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    backgroundColor: '#FAF6F0',
+    borderBottomColor: theme.colors.cardBorder,
   },
   backButton: {
     paddingVertical: 4,
+    paddingRight: 8,
   },
   backButtonText: {
-    fontSize: 14,
-    color: theme.colors.primary,
-    fontWeight: '700',
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.accentBlue,
+    fontWeight: '500',
   },
   topBarTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
-  },
-  editButton: {
-    backgroundColor: '#EAE1D3',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-  },
-  editButtonText: {
-    fontSize: 12,
+    fontSize: theme.typography.sizes.heading,
     fontWeight: '600',
     color: theme.colors.textPrimary,
   },
+  editButton: {
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: theme.borderRadius.sm,
+  },
+  editButtonText: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textInverse,
+    fontWeight: '600',
+  },
   scrollContent: {
-    padding: 16,
-    paddingBottom: 40,
+    padding: theme.spacing.lg,
+    paddingBottom: theme.spacing.xxxl,
   },
   profileCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.xl,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    shadowColor: '#4A3E31',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
-    marginBottom: 20,
-    position: 'relative',
-  },
-  washiTape: {
-    position: 'absolute',
-    top: -7,
-    alignSelf: 'center',
-    width: 80,
-    height: 14,
-    backgroundColor: '#F3D5B5',
-    opacity: 0.85,
-    borderRadius: 2,
-    transform: [{ rotate: '1deg' }],
-    zIndex: 2,
-  },
-  washiTapeTeacher: {
-    backgroundColor: '#F9C6C9',
+    ...theme.shadows.card,
+    marginBottom: theme.spacing.lg,
   },
   avatarRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 6,
-    marginBottom: 14,
+    marginBottom: theme.spacing.lg,
+  },
+  avatarImage: {
+    width: 68,
+    height: 68,
+    borderRadius: theme.borderRadius.full,
+    borderWidth: 2,
+    borderColor: theme.colors.cardBorder,
+    marginRight: theme.spacing.lg,
   },
   avatarBox: {
-    width: 72,
-    height: 72,
-    borderRadius: 16,
+    width: 68,
+    height: 68,
+    borderRadius: theme.borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#ECE4D8',
+    marginRight: theme.spacing.lg,
   },
-  avatarEmoji: {
-    fontSize: 38,
+  avatarTeacher: {
+    backgroundColor: theme.colors.badgeTeacherBg,
+  },
+  avatarStudent: {
+    backgroundColor: theme.colors.badgeStudentBg,
+  },
+  avatarText: {
+    fontSize: 22,
+    fontWeight: '700',
+  },
+  avatarTextTeacher: {
+    color: theme.colors.badgeTeacherText,
+  },
+  avatarTextStudent: {
+    color: theme.colors.badgeStudentText,
   },
   profileHeaderInfo: {
     flex: 1,
-    marginLeft: 14,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   memberName: {
-    fontSize: 20,
-    fontWeight: '800',
+    fontSize: theme.typography.sizes.title,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.3,
+  },
+  myBadge: {
+    backgroundColor: theme.colors.badgeSelfBg,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: theme.borderRadius.pill,
+    marginLeft: 8,
+  },
+  myBadgeText: {
+    color: theme.colors.badgeSelfText,
+    fontSize: theme.typography.sizes.small,
+    fontWeight: '600',
   },
   memberNickname: {
-    fontSize: 13,
-    fontStyle: 'italic',
-    color: theme.colors.accentWarm,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textSecondary,
     marginTop: 2,
   },
-  roleBadge: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#F0ECE4',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 6,
+  roleBadgeContainer: {
     marginTop: 6,
+    flexDirection: 'row',
   },
-  roleBadgeText: {
-    fontSize: 11,
+  roleBadgeTeacher: {
+    backgroundColor: theme.colors.badgeTeacherBg,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: theme.borderRadius.pill,
+  },
+  roleBadgeStudent: {
+    backgroundColor: theme.colors.badgeStudentBg,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: theme.borderRadius.pill,
+  },
+  roleBadgeTextTeacher: {
+    fontSize: theme.typography.sizes.small,
     fontWeight: '600',
-    color: theme.colors.textSecondary,
+    color: theme.colors.badgeTeacherText,
+  },
+  roleBadgeTextStudent: {
+    fontSize: theme.typography.sizes.small,
+    fontWeight: '600',
+    color: theme.colors.badgeStudentText,
   },
   quoteCard: {
-    backgroundColor: '#FDF9F2',
+    backgroundColor: theme.colors.surfaceSubtle,
+    borderRadius: theme.borderRadius.md,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
     borderLeftWidth: 3,
-    borderLeftColor: theme.colors.accentWarm,
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 14,
+    borderLeftColor: theme.colors.primary,
   },
   quoteCardLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#8A533E',
+    fontSize: theme.typography.sizes.small,
+    fontWeight: '600',
+    color: theme.colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
     marginBottom: 4,
   },
   quoteCardBody: {
-    fontSize: 13,
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textPrimary,
+    lineHeight: 20,
     fontStyle: 'italic',
-    color: '#4F4439',
-    lineHeight: 19,
   },
   contactSection: {
     borderTopWidth: 1,
     borderTopColor: theme.colors.divider,
-    paddingTop: 12,
+    paddingTop: theme.spacing.md,
+    marginBottom: theme.spacing.md,
   },
   sectionTitle: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
-    marginBottom: 8,
+    fontSize: theme.typography.sizes.caption,
+    fontWeight: '600',
+    color: theme.colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: theme.spacing.sm,
+  },
+  contactGrid: {
+    gap: 8,
   },
   contactItem: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6,
+    justifyContent: 'space-between',
+    paddingVertical: 4,
   },
-  contactIcon: {
-    fontSize: 13,
-    marginRight: 8,
-  },
-  contactText: {
-    fontSize: 13,
+  contactLabel: {
+    fontSize: theme.typography.sizes.body,
     color: theme.colors.textSecondary,
   },
+  contactValue: {
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textPrimary,
+    fontWeight: '500',
+  },
+  currentWorkSection: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.divider,
+    paddingTop: theme.spacing.md,
+  },
+  workCard: {
+    backgroundColor: theme.colors.surfaceSubtle,
+    borderRadius: theme.borderRadius.sm,
+    padding: theme.spacing.md,
+  },
+  workCompany: {
+    fontSize: theme.typography.sizes.body,
+    fontWeight: '600',
+    color: theme.colors.textPrimary,
+  },
+  workMajor: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textSecondary,
+    marginTop: 2,
+  },
   timelineSection: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 16,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.xl,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    shadowColor: '#4A3E31',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 6,
-    elevation: 3,
+    ...theme.shadows.card,
+    marginBottom: theme.spacing.lg,
   },
-  timelineHeader: {
-    marginBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.divider,
-    paddingBottom: 8,
+  timelineHeaderTitle: {
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: '600',
+    color: theme.colors.textPrimary,
+    marginBottom: theme.spacing.md,
   },
-  timelineSectionTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-    color: theme.colors.primary,
-  },
-  timelineSubtitle: {
-    fontSize: 11.5,
+  updateTimeText: {
+    fontSize: theme.typography.sizes.small,
     color: theme.colors.textMuted,
-    marginTop: 3,
-  },
-  footerNote: {
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  footerText: {
-    fontSize: 11,
-    color: theme.colors.textMuted,
-    fontStyle: 'italic',
+    textAlign: 'center',
   },
 });

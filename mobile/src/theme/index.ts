@@ -1,47 +1,56 @@
 export const theme = {
   colors: {
-    // Modern iOS / Clean Canvas
-    background: '#F8F9FA',        // Gray 50
-    cardBackground: '#FFFFFF',    // Pure White
-    cardBorder: '#E5E7EB',        // Gray 200
-    cardBorderHover: '#D1D5DB',   // Gray 300
+    // Apple / Notion Slate Palette
+    background: '#F2F2F7',        // iOS System Gray 6 Background
+    surface: '#FFFFFF',           // Crisp White Card
+    surfaceHover: '#F8FAFC',
+    surfaceSubtle: '#F1F5F9',     // Slate 100
     
-    // Text Hierarchy
-    textPrimary: '#111827',       // Gray 900
-    textSecondary: '#4B5563',     // Gray 600
-    textMuted: '#9CA3AF',         // Gray 400
+    // Borders
+    cardBorder: '#E2E8F0',        // Slate 200
+    cardBorderHover: '#CBD5E1',   // Slate 300
+    divider: '#EDF2F7',
     
-    // Primary & Accents
-    primary: '#1D4ED8',           // Blue 700
-    primaryLight: '#EFF6FF',      // Blue 50
-    primaryBorder: '#BFDBFE',     // Blue 200
-    accentWarm: '#D97706',        // Amber 600
+    // Typography Hierarchy
+    textPrimary: '#0F172A',       // Slate 900
+    textSecondary: '#475569',     // Slate 600
+    textMuted: '#94A3B8',         // Slate 400
+    textInverse: '#FFFFFF',
+    
+    // Brand / Primary Action
+    primary: '#0F172A',           // Modern Dark Slate / Apple Style Primary
+    primaryHover: '#1E293B',
+    primaryLight: '#F1F5F9',
     accentBlue: '#2563EB',        // Blue 600
-    accentYellow: '#F59E0B',      // Amber 500
+    accentBlueBg: '#EFF6FF',
+    accentWarm: '#D97706',
     
-    accentEmerald: '#059669',     // Emerald 600
-    accentEmeraldBg: '#ECFDF5',   // Emerald 50
-    accentAmber: '#D97706',       // Amber 600
-    accentAmberBg: '#FFFBEB',     // Amber 50
-    accentRose: '#E11D48',        // Rose 600
+    // Role Badges
+    badgeTeacherBg: '#FEF3C7',    // Amber 100
+    badgeTeacherText: '#92400E',  // Amber 800
+    badgeStudentBg: '#F1F5F9',    // Slate 100
+    badgeStudentText: '#334155',  // Slate 700
+    badgeSelfBg: '#EFF6FF',       // Blue 50
+    badgeSelfText: '#1D4ED8',     // Blue 700
     
-    // Status & Utility
+    // Status
     badgeCurrent: '#ECFDF5',
     badgeCurrentText: '#065F46',
-    divider: '#F3F4F6',           // Gray 100
-    surfaceSubtle: '#F3F4F6',     // Gray 100
+    
+    // Form Inputs
     inputBg: '#FFFFFF',
-    inputBorder: '#D1D5DB',
+    inputBorder: '#CBD5E1',
+    inputFocusBorder: '#0F172A',
   },
   typography: {
     fontFamily: {
       sans: 'System',
     },
     sizes: {
-      hero: 26,
-      title: 20,
-      heading: 16,
-      body: 14,
+      hero: 24,
+      title: 18,
+      heading: 15,
+      body: 13.5,
       caption: 12,
       small: 11,
     },
@@ -57,10 +66,34 @@ export const theme = {
   },
   borderRadius: {
     xs: 4,
-    sm: 6,
-    md: 8,
-    lg: 12,
-    xl: 16,
+    sm: 8,
+    md: 12,
+    lg: 16,
+    xl: 20,
+    full: 9999,
     pill: 9999,
+  },
+  shadows: {
+    sm: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.04,
+      shadowRadius: 3,
+      elevation: 1,
+    },
+    md: {
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.06,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    card: {
+      shadowColor: '#0F172A',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.04,
+      shadowRadius: 6,
+      elevation: 2,
+    },
   },
 };

@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert,
   TextInput,
+  Image,
 } from 'react-native';
 import { LuuButData, Member } from '../types';
 import { theme } from '../theme';
@@ -37,7 +38,7 @@ export const SettingsScreen: React.FC<Props> = ({
     setShowJsonBox(true);
     Alert.alert(
       'Xuất Dữ Liệu Thành Công',
-      'Chuỗi JSON lưu trữ đã sẵn sàng bên dưới để bạn sao chép và lưu trữ hoặc gửi qua tin nhắn.'
+      'Chuỗi JSON lưu trữ đã sẵn sàng bên dưới để bạn sao chép và lưu trữ offline.'
     );
   };
 
@@ -65,35 +66,43 @@ export const SettingsScreen: React.FC<Props> = ({
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerSubtitle}>Hệ Thống</Text>
-          <Text style={styles.headerTitle}>Cài Đặt & Tài Khoản</Text>
+          <Text style={styles.headerSubtitle}>Quản trị hệ thống</Text>
+          <Text style={styles.headerTitle}>Cài Đặt & Dữ Liệu</Text>
         </View>
 
-        {/* Tài khoản hiện tại */}
+        {/* Current User Card */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Tài Khoản Đang Đăng Nhập</Text>
+          <Text style={styles.cardTitle}>Tài Khoản Hiện Tại</Text>
           <View style={styles.userRow}>
-            <View style={styles.userAvatar}>
-              <Text style={styles.userAvatarText}>
-                {currentUser.role === 'teacher' ? 'GV' : currentUser.name.slice(0, 2).toUpperCase()}
-              </Text>
-            </View>
+            {currentUser.avatarUrl ? (
+              <Image
+                source={{ uri: currentUser.avatarUrl }}
+                style={styles.userAvatarImage}
+                resizeMode="cover"
+              />
+            ) : (
+              <View style={styles.userAvatar}>
+                <Text style={styles.userAvatarText}>
+                  {currentUser.role === 'teacher' ? 'GV' : currentUser.name.slice(0, 2).toUpperCase()}
+                </Text>
+              </View>
+            )}
             <View style={styles.userInfo}>
               <Text style={styles.userName}>{currentUser.name}</Text>
-              <Text style={styles.userSub}>Username: {currentUser.username || 'Chưa đặt'}</Text>
+              <Text style={styles.userSub}>Tài khoản: {currentUser.username || 'ct1619'}</Text>
               <Text style={styles.userRole}>
-                {currentUser.role === 'teacher' ? 'Giáo Viên' : 'Học Sinh Lớp CT1619'}
+                {currentUser.role === 'teacher' ? 'Giáo Viên' : 'Thành viên lớp CT1619'}
               </Text>
             </View>
           </View>
           <TouchableOpacity style={styles.logoutBtn} onPress={onLogout}>
-            <Text style={styles.logoutBtnText}>Đăng Xuất / Đổi Người Dùng</Text>
+            <Text style={styles.logoutBtnText}>Đăng xuất phiên làm việc</Text>
           </TouchableOpacity>
         </View>
 
-        {/* Thông tin lớp học */}
+        {/* Group Stats Card */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Thông Tin Tập Thể</Text>
+          <Text style={styles.cardTitle}>Thông Tin Niên Khóa</Text>
           <View style={styles.row}>
             <Text style={styles.label}>Lớp</Text>
             <Text style={styles.value}>{data.className}</Text>
@@ -103,7 +112,7 @@ export const SettingsScreen: React.FC<Props> = ({
             <Text style={styles.value}>{data.schoolYear}</Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Chủ nhiệm</Text>
+            <Text style={styles.label}>Giáo viên chủ nhiệm</Text>
             <Text style={styles.value}>{data.homeroomTeacher}</Text>
           </View>
           <View style={styles.row}>
@@ -112,51 +121,53 @@ export const SettingsScreen: React.FC<Props> = ({
           </View>
         </View>
 
-        {/* Chức năng sao lưu & đồng bộ offline */}
+        {/* Sync & Backup Card */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Sao Lưu & Chia Sẻ</Text>
-          <Text style={styles.cardDesc}>
-            Ứng dụng hoạt động độc lập không cần máy chủ. Dữ liệu được lưu trữ an toàn trong máy và có thể xuất thành tệp văn bản JSON để chia sẻ.
+          <Text style={styles.cardTitle}>Sao Lưu & Đồng Bộ Dữ Liệu (Offline-First)</Text>
+          <Text style={styles.helpText}>
+            Dữ liệu được lưu trữ trực tiếp trên thiết bị (Local Storage). Bạn có thể sao chép chuỗi JSON bên dưới để chia sẻ hoặc backup khi chuyển đổi máy.
           </Text>
 
-          <View style={styles.buttonRow}>
+          <View style={styles.btnRow}>
             <TouchableOpacity style={styles.actionBtn} onPress={handleExportJson}>
               <Text style={styles.actionBtnText}>Xuất JSON Sao Lưu</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.actionBtn, styles.actionBtnOutline]} onPress={() => setShowJsonBox(!showJsonBox)}>
+            <TouchableOpacity
+              style={[styles.actionBtn, styles.actionBtnOutline]}
+              onPress={() => setShowJsonBox(!showJsonBox)}
+            >
               <Text style={[styles.actionBtnText, styles.actionBtnOutlineText]}>
-                {showJsonBox ? 'Ẩn Hộp Dữ Liệu' : 'Nhập Dữ Liệu'}
+                {showJsonBox ? 'Đóng Hộp Dữ Liệu' : 'Mở Hộp Nhập JSON'}
               </Text>
             </TouchableOpacity>
           </View>
 
           {showJsonBox && (
-            <View style={styles.jsonBoxContainer}>
-              <Text style={styles.jsonBoxLabel}>Dán hoặc sao chép mã dữ liệu:</Text>
+            <View style={styles.jsonBoxWrapper}>
               <TextInput
                 style={styles.jsonInput}
                 multiline
-                numberOfLines={6}
+                numberOfLines={8}
                 value={jsonText}
                 onChangeText={setJsonText}
-                placeholder="Dán chuỗi JSON lưu bút vào đây..."
+                placeholder="Dán nội dung JSON đã sao lưu vào đây..."
               />
               <TouchableOpacity style={styles.importBtn} onPress={handleImportJson}>
-                <Text style={styles.importBtnText}>Áp Dụng Dữ Liệu</Text>
+                <Text style={styles.importBtnText}>Nhập Dữ Liệu (Import)</Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
 
-        {/* Khôi phục mặc định */}
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Khôi Phục Dữ Liệu</Text>
-          <Text style={styles.cardDesc}>
-            Đặt lại toàn bộ danh sách 24 thành viên CT1619 về dữ liệu nguyên bản của lớp.
+        {/* Reset App */}
+        <View style={[styles.card, styles.dangerCard]}>
+          <Text style={styles.dangerTitle}>Khôi Phục Trạng Thái Ban Đầu</Text>
+          <Text style={styles.dangerDesc}>
+            Xóa bỏ mọi cập nhật cá nhân và quay về bộ dữ liệu mẫu 24 thành viên CT1619 gốc.
           </Text>
-          <TouchableOpacity style={styles.resetBtn} onPress={onResetData}>
-            <Text style={styles.resetBtnText}>Khôi phục dữ liệu ban đầu</Text>
+          <TouchableOpacity style={styles.dangerBtn} onPress={onResetData}>
+            <Text style={styles.dangerBtnText}>Đặt Lại Dữ Liệu Ban Đầu</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -174,27 +185,29 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.xxxl,
   },
   header: {
-    paddingVertical: theme.spacing.md,
+    marginBottom: theme.spacing.lg,
   },
   headerSubtitle: {
     fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
     fontWeight: '500',
+    letterSpacing: 0.3,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
   },
   headerTitle: {
     fontSize: theme.typography.sizes.hero,
     fontWeight: '700',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.5,
     marginTop: 2,
   },
   card: {
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: theme.colors.surface,
     borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.lg,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    padding: theme.spacing.lg,
+    ...theme.shadows.card,
     marginBottom: theme.spacing.lg,
   },
   cardTitle: {
@@ -203,30 +216,32 @@ const styles = StyleSheet.create({
     color: theme.colors.textPrimary,
     marginBottom: theme.spacing.md,
   },
-  cardDesc: {
-    fontSize: theme.typography.sizes.body,
-    color: theme.colors.textSecondary,
-    lineHeight: 20,
-    marginBottom: theme.spacing.md,
-  },
   userRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: theme.spacing.md,
   },
+  userAvatarImage: {
+    width: 52,
+    height: 52,
+    borderRadius: theme.borderRadius.full,
+    borderWidth: 1.5,
+    borderColor: theme.colors.cardBorder,
+    marginRight: theme.spacing.md,
+  },
   userAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: theme.borderRadius.md,
-    backgroundColor: theme.colors.primaryLight,
-    alignItems: 'center',
+    width: 52,
+    height: 52,
+    borderRadius: theme.borderRadius.full,
+    backgroundColor: theme.colors.badgeStudentBg,
     justifyContent: 'center',
+    alignItems: 'center',
     marginRight: theme.spacing.md,
   },
   userAvatarText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
-    color: theme.colors.primary,
+    color: theme.colors.badgeStudentText,
   },
   userInfo: {
     flex: 1,
@@ -238,27 +253,26 @@ const styles = StyleSheet.create({
   },
   userSub: {
     fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textSecondary,
+    marginTop: 1,
+  },
+  userRole: {
+    fontSize: theme.typography.sizes.small,
     color: theme.colors.textMuted,
     marginTop: 2,
   },
-  userRole: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.accentEmerald,
-    fontWeight: '500',
-    marginTop: 2,
-  },
   logoutBtn: {
+    backgroundColor: theme.colors.surfaceSubtle,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+    paddingVertical: 8,
+    borderRadius: theme.borderRadius.sm,
     alignItems: 'center',
-    marginTop: 6,
   },
   logoutBtnText: {
     fontSize: theme.typography.sizes.caption,
     fontWeight: '600',
-    color: theme.colors.accentRose,
+    color: theme.colors.textSecondary,
   },
   row: {
     flexDirection: 'row',
@@ -269,82 +283,94 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: theme.typography.sizes.body,
-    color: theme.colors.textMuted,
+    color: theme.colors.textSecondary,
   },
   value: {
     fontSize: theme.typography.sizes.body,
-    color: theme.colors.textPrimary,
     fontWeight: '500',
+    color: theme.colors.textPrimary,
   },
-  buttonRow: {
+  helpText: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textSecondary,
+    lineHeight: 18,
+    marginBottom: theme.spacing.md,
+  },
+  btnRow: {
     flexDirection: 'row',
+    gap: 8,
   },
   actionBtn: {
     flex: 1,
     backgroundColor: theme.colors.primary,
     paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: theme.borderRadius.sm,
     alignItems: 'center',
-    marginRight: theme.spacing.sm,
   },
   actionBtnText: {
-    color: '#FFFFFF',
     fontSize: theme.typography.sizes.caption,
     fontWeight: '600',
+    color: theme.colors.textInverse,
   },
   actionBtnOutline: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.surface,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    marginRight: 0,
-    marginLeft: theme.spacing.sm,
   },
   actionBtnOutlineText: {
     color: theme.colors.textPrimary,
   },
-  jsonBoxContainer: {
+  jsonBoxWrapper: {
     marginTop: theme.spacing.md,
-    paddingTop: theme.spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: theme.colors.divider,
-  },
-  jsonBoxLabel: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textMuted,
-    marginBottom: 6,
   },
   jsonInput: {
     backgroundColor: theme.colors.inputBg,
     borderWidth: 1,
     borderColor: theme.colors.inputBorder,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: theme.borderRadius.sm,
     padding: theme.spacing.md,
-    fontSize: theme.typography.sizes.caption,
+    fontSize: theme.typography.sizes.small,
+    fontFamily: 'monospace',
     height: 120,
     textAlignVertical: 'top',
   },
   importBtn: {
-    backgroundColor: theme.colors.accentEmerald,
-    paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.accentBlue,
+    paddingVertical: 8,
+    borderRadius: theme.borderRadius.sm,
     alignItems: 'center',
-    marginTop: theme.spacing.sm,
+    marginTop: 8,
   },
   importBtnText: {
-    color: '#FFFFFF',
     fontSize: theme.typography.sizes.caption,
     fontWeight: '600',
+    color: theme.colors.textInverse,
   },
-  resetBtn: {
+  dangerCard: {
+    borderColor: '#FECDD3',
+    backgroundColor: '#FFF1F2',
+  },
+  dangerTitle: {
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: '600',
+    color: '#9F1239',
+    marginBottom: 4,
+  },
+  dangerDesc: {
+    fontSize: theme.typography.sizes.caption,
+    color: '#881337',
+    marginBottom: theme.spacing.md,
+    lineHeight: 18,
+  },
+  dangerBtn: {
+    backgroundColor: '#E11D48',
     paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: theme.borderRadius.sm,
     alignItems: 'center',
   },
-  resetBtnText: {
-    color: theme.colors.accentRose,
+  dangerBtnText: {
     fontSize: theme.typography.sizes.caption,
-    fontWeight: '500',
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
 });

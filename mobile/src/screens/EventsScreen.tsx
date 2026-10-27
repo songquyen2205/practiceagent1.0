@@ -10,7 +10,6 @@ import {
   Modal,
   TextInput,
   Alert,
-  ScrollView,
 } from 'react-native';
 import { ClassEvent } from '../types';
 import { theme } from '../theme';
@@ -41,8 +40,8 @@ export const EventsScreen: React.FC<Props> = ({ events, onToggleJoin, onAddEvent
       date: date.trim(),
       time: time.trim() || 'Cả ngày',
       location: location.trim(),
-      description: description.trim() || 'Thông báo họp mặt lớp thân mời thầy cô và các bạn!',
-      organizerName: organizerName.trim() || 'Ban Cán Sự Lớp',
+      description: description.trim() || 'Kế hoạch họp mặt và giao lưu cùng tập thể lớp.',
+      organizerName: organizerName.trim() || 'Ban Liên Lạc Lớp',
       attendeesCount: 1,
       category: 'reunion',
     });
@@ -61,27 +60,21 @@ export const EventsScreen: React.FC<Props> = ({ events, onToggleJoin, onAddEvent
       <StatusBar barStyle="dark-content" />
 
       <View style={styles.container}>
-        {/* Header */}
+        {/* Header Clean */}
         <View style={styles.header}>
           <View>
-            <Text style={styles.headerSubtitle}>Gặp gỡ & Kết nối</Text>
-            <Text style={styles.headerTitle}>📌 Bảng Tin Sự Kiện Lớp</Text>
+            <Text style={styles.headerSubtitle}>Hoạt động tập thể</Text>
+            <Text style={styles.headerTitle}>Sự Kiện & Họp Lớp</Text>
           </View>
           <TouchableOpacity
             style={styles.addEventBtn}
             onPress={() => setModalVisible(true)}
           >
-            <Text style={styles.addEventBtnText}>+ Tạo Sự Kiện</Text>
+            <Text style={styles.addEventBtnText}>+ Thêm sự kiện</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.bannerNotice}>
-          <Text style={styles.bannerText}>
-            🔔 Thầy cô và các bạn có thể đăng tin họp lớp, thăm thầy cô, báo hỷ để mọi người tiện sắp xếp thời gian cùng chung vui nhé!
-          </Text>
-        </View>
-
-        {/* Danh sách sự kiện */}
+        {/* Events List */}
         <FlatList
           data={events}
           keyExtractor={item => item.id}
@@ -91,40 +84,42 @@ export const EventsScreen: React.FC<Props> = ({ events, onToggleJoin, onAddEvent
             <View style={styles.eventCard}>
               <View style={styles.cardHeader}>
                 <View style={styles.dateBadge}>
-                  <Text style={styles.dateDay}>{item.date.split('-')[2] || '📅'}</Text>
-                  <Text style={styles.dateMonth}>Th.{item.date.split('-')[1] || ''}</Text>
+                  <Text style={styles.dateDay}>{item.date.split('-')[2] || '15'}</Text>
+                  <Text style={styles.dateMonth}>Th.{item.date.split('-')[1] || '11'}</Text>
                 </View>
                 <View style={styles.headerTextGroup}>
                   <Text style={styles.eventTitle}>{item.title}</Text>
-                  <Text style={styles.organizerText}>Đăng bởi: {item.organizerName}</Text>
+                  <Text style={styles.organizerText}>Khởi xướng: {item.organizerName}</Text>
                 </View>
               </View>
 
-              <View style={styles.metaRow}>
-                <Text style={styles.metaText}>⏰ {item.time || 'Cả ngày'} | 📍 {item.location}</Text>
+              <View style={styles.cardBody}>
+                <View style={styles.infoRow}>
+                  <Text style={styles.infoLabel}>Thời gian</Text>
+                  <Text style={styles.infoValue}>{item.time || 'Cả ngày'} — {item.date}</Text>
+                </View>
+
+                <View style={styles.infoRow}>
+                  <Text style={styles.infoLabel}>Địa điểm</Text>
+                  <Text style={styles.infoValue}>{item.location}</Text>
+                </View>
+
+                <Text style={styles.descriptionText}>{item.description}</Text>
               </View>
 
-              <Text style={styles.descText}>{item.description}</Text>
-
-              <View style={styles.footerRow}>
-                <Text style={styles.attendeesText}>
-                  👥 Đã có <Text style={styles.boldText}>{item.attendeesCount} bạn</Text> tham gia
-                </Text>
+              <View style={styles.cardFooter}>
+                <View style={styles.attendeeBadge}>
+                  <Text style={styles.attendeeText}>
+                    {item.attendeesCount} người xác nhận
+                  </Text>
+                </View>
 
                 <TouchableOpacity
-                  style={[
-                    styles.joinBtn,
-                    item.isRegistered && styles.joinBtnActive,
-                  ]}
+                  style={[styles.joinBtn, item.isRegistered && styles.joinedBtn]}
                   onPress={() => onToggleJoin(item.id)}
                 >
-                  <Text
-                    style={[
-                      styles.joinBtnText,
-                      item.isRegistered && styles.joinBtnTextActive,
-                    ]}
-                  >
-                    {item.isRegistered ? '✓ Tôi sẽ tham gia' : '+ Tham gia'}
+                  <Text style={[styles.joinBtnText, item.isRegistered && styles.joinedBtnText]}>
+                    {item.isRegistered ? 'Đã tham gia' : 'Xác nhận tham gia'}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -133,82 +128,69 @@ export const EventsScreen: React.FC<Props> = ({ events, onToggleJoin, onAddEvent
         />
       </View>
 
-      {/* Modal tạo sự kiện */}
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent
-        onRequestClose={() => setModalVisible(false)}
-      >
+      {/* Modal Thêm sự kiện */}
+      <Modal visible={modalVisible} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>🎉 Thông Báo Sự Kiện Mới</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.closeBtn}>✕</Text>
+            <Text style={styles.modalTitle}>Tạo Sự Kiện Mới</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Tên sự kiện (VD: Họp lớp cuối năm)"
+              value={title}
+              onChangeText={setTitle}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Ngày diễn ra (YYYY-MM-DD)"
+              value={date}
+              onChangeText={setDate}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Giờ (VD: 09:00 sáng)"
+              value={time}
+              onChangeText={setTime}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Địa điểm"
+              value={location}
+              onChangeText={setLocation}
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Người đại diện liên hệ"
+              value={organizerName}
+              onChangeText={setOrganizerName}
+            />
+
+            <TextInput
+              style={[styles.input, { height: 70 }]}
+              placeholder="Nội dung chi tiết chương trình"
+              value={description}
+              onChangeText={setDescription}
+              multiline
+            />
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.cancelBtn}
+                onPress={() => setModalVisible(false)}
+              >
+                <Text style={styles.cancelBtnText}>Hủy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.submitBtn}
+                onPress={handleCreate}
+              >
+                <Text style={styles.submitBtnText}>Tạo sự kiện</Text>
               </TouchableOpacity>
             </View>
-
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={styles.label}>Tên sự kiện / Buổi gặp gỡ *</Text>
-              <TextInput
-                style={styles.input}
-                value={title}
-                onChangeText={setTitle}
-                placeholder="Ví dụ: Họp lớp cuối năm, Thăm nhà cô..."
-              />
-
-              <View style={styles.rowInputs}>
-                <View style={{ flex: 1, marginRight: 8 }}>
-                  <Text style={styles.label}>Ngày (YYYY-MM-DD) *</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={date}
-                    onChangeText={setDate}
-                    placeholder="2026-11-20"
-                  />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.label}>Giờ</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={time}
-                    onChangeText={setTime}
-                    placeholder="09:00 Sáng"
-                  />
-                </View>
-              </View>
-
-              <Text style={styles.label}>Địa điểm tập trung *</Text>
-              <TextInput
-                style={styles.input}
-                value={location}
-                onChangeText={setLocation}
-                placeholder="Nhà cô Phương / Quán Cà phê X..."
-              />
-
-              <Text style={styles.label}>Người đại diện đứng ra tổ chức</Text>
-              <TextInput
-                style={styles.input}
-                value={organizerName}
-                onChangeText={setOrganizerName}
-                placeholder="Ví dụ: Minh Cận, Trang Bí thư..."
-              />
-
-              <Text style={styles.label}>Nội dung / Lời mời chi tiết</Text>
-              <TextInput
-                style={[styles.input, styles.textArea]}
-                value={description}
-                onChangeText={setDescription}
-                placeholder="Nhắn gửi chi tiết về buổi gặp mặt..."
-                multiline
-                numberOfLines={3}
-              />
-
-              <TouchableOpacity style={styles.submitBtn} onPress={handleCreate}>
-                <Text style={styles.submitBtnText}>Đăng Thông Báo Sự Kiện</Text>
-              </TouchableOpacity>
-            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -223,221 +205,213 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
+    alignItems: 'flex-start',
+    marginBottom: theme.spacing.lg,
   },
   headerSubtitle: {
-    fontSize: 12,
-    color: theme.colors.accentWarm,
-    fontWeight: '600',
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+    fontWeight: '500',
+    letterSpacing: 0.3,
     textTransform: 'uppercase',
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: '800',
+    fontSize: theme.typography.sizes.hero,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.5,
+    marginTop: 2,
   },
   addEventBtn: {
     backgroundColor: theme.colors.primary,
     paddingHorizontal: 12,
     paddingVertical: 7,
-    borderRadius: 8,
+    borderRadius: theme.borderRadius.sm,
   },
   addEventBtnText: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 12,
-  },
-  bannerNotice: {
-    backgroundColor: '#F3EFE6',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: theme.colors.primary,
-  },
-  bannerText: {
-    fontSize: 12,
-    color: theme.colors.textSecondary,
-    lineHeight: 16,
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textInverse,
+    fontWeight: '600',
   },
   listContent: {
-    paddingBottom: 30,
+    paddingBottom: theme.spacing.xxxl,
   },
   eventCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 14,
-    padding: 14,
-    marginBottom: 14,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.lg,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    shadowColor: '#4A3E31',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 5,
-    elevation: 2,
+    ...theme.shadows.card,
+    marginBottom: theme.spacing.md,
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: theme.spacing.md,
   },
   dateBadge: {
-    backgroundColor: '#FAF2E6',
-    borderRadius: 8,
-    width: 44,
-    height: 44,
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.surfaceSubtle,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E6D7C3',
-    marginRight: 10,
+    marginRight: theme.spacing.md,
   },
   dateDay: {
     fontSize: 16,
-    fontWeight: '800',
-    color: theme.colors.accentWarm,
+    fontWeight: '700',
+    color: theme.colors.textPrimary,
+    lineHeight: 18,
   },
   dateMonth: {
     fontSize: 10,
     fontWeight: '600',
     color: theme.colors.textSecondary,
+    textTransform: 'uppercase',
   },
   headerTextGroup: {
     flex: 1,
   },
   eventTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: '600',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.2,
   },
   organizerText: {
-    fontSize: 11,
+    fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
     marginTop: 2,
   },
-  metaRow: {
-    backgroundColor: '#FAF7F2',
-    paddingHorizontal: 8,
-    paddingVertical: 5,
-    borderRadius: 6,
-    marginBottom: 8,
+  cardBody: {
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.divider,
+    paddingTop: theme.spacing.sm,
+    gap: 4,
   },
-  metaText: {
-    fontSize: 12,
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 2,
+  },
+  infoLabel: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+  },
+  infoValue: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textPrimary,
+    fontWeight: '500',
+  },
+  descriptionText: {
+    fontSize: theme.typography.sizes.body,
     color: theme.colors.textSecondary,
-    fontWeight: '600',
+    marginTop: theme.spacing.xs,
+    lineHeight: 19,
   },
-  descText: {
-    fontSize: 13,
-    color: '#4F4439',
-    lineHeight: 18,
-    marginBottom: 12,
-  },
-  footerRow: {
+  cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
     borderTopWidth: 1,
     borderTopColor: theme.colors.divider,
-    paddingTop: 10,
   },
-  attendeesText: {
-    fontSize: 12,
+  attendeeBadge: {
+    backgroundColor: theme.colors.surfaceSubtle,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: theme.borderRadius.pill,
+  },
+  attendeeText: {
+    fontSize: theme.typography.sizes.small,
     color: theme.colors.textSecondary,
-  },
-  boldText: {
-    fontWeight: '700',
-    color: theme.colors.primary,
+    fontWeight: '500',
   },
   joinBtn: {
-    backgroundColor: '#EBE2D5',
+    backgroundColor: theme.colors.primary,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 8,
+    borderRadius: theme.borderRadius.sm,
   },
-  joinBtnActive: {
-    backgroundColor: theme.colors.badgeCurrent,
+  joinedBtn: {
+    backgroundColor: theme.colors.surfaceSubtle,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
   },
   joinBtnText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textInverse,
+    fontWeight: '600',
   },
-  joinBtnTextActive: {
-    color: theme.colors.badgeCurrentText,
+  joinedBtnText: {
+    color: theme.colors.textSecondary,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing.lg,
   },
   modalContent: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    maxHeight: '85%',
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.xl,
+    width: '100%',
+    maxWidth: 420,
+    ...theme.shadows.md,
   },
   modalTitle: {
-    fontSize: 17,
-    fontWeight: '800',
+    fontSize: theme.typography.sizes.title,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
-  },
-  closeBtn: {
-    fontSize: 18,
-    color: theme.colors.textMuted,
-    padding: 4,
-  },
-  label: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: theme.colors.textSecondary,
-    marginBottom: 4,
-    marginTop: 6,
+    marginBottom: theme.spacing.lg,
   },
   input: {
-    backgroundColor: '#FAF8F5',
+    backgroundColor: theme.colors.inputBg,
     borderWidth: 1,
-    borderColor: '#DFD8CC',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    height: 42,
-    fontSize: 13,
-    color: theme.colors.textPrimary,
-    marginBottom: 6,
+    borderColor: theme.colors.inputBorder,
+    borderRadius: theme.borderRadius.sm,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: 8,
+    fontSize: theme.typography.sizes.body,
+    marginBottom: theme.spacing.sm,
   },
-  textArea: {
-    height: 70,
-    textAlignVertical: 'top',
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 8,
+    marginTop: theme.spacing.md,
+  },
+  cancelBtn: {
+    paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  rowInputs: {
-    flexDirection: 'row',
+  cancelBtnText: {
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textSecondary,
   },
   submitBtn: {
     backgroundColor: theme.colors.primary,
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 12,
-    marginBottom: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: theme.borderRadius.sm,
   },
   submitBtnText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '700',
+    fontSize: theme.typography.sizes.body,
+    color: theme.colors.textInverse,
+    fontWeight: '600',
   },
 });

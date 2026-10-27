@@ -32,11 +32,9 @@ export const MembersScreen: React.FC<Props> = ({
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'teacher' | 'student'>('all');
 
   const filteredMembers = members.filter(m => {
-    // Lọc theo role
     if (selectedFilter === 'teacher' && m.role !== 'teacher') return false;
     if (selectedFilter === 'student' && m.role !== 'student') return false;
 
-    // Tìm kiếm
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
     const matchName = m.name.toLowerCase().includes(q);
@@ -47,7 +45,6 @@ export const MembersScreen: React.FC<Props> = ({
     const matchTimeline = m.timelines.some(
       t => t.title.toLowerCase().includes(q) || t.subtitle.toLowerCase().includes(q)
     );
-
     return matchName || matchNick || matchCompany || matchMajor || matchCity || matchTimeline;
   });
 
@@ -55,90 +52,64 @@ export const MembersScreen: React.FC<Props> = ({
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
-        {/* Header Sổ Lưu Bút Kỷ Niệm */}
+        {/* Top Header Clean iOS Style */}
         <View style={styles.header}>
           <View>
             <Text style={styles.headerSubtitle}>{schoolYear}</Text>
-            <Text style={styles.headerTitle}>📖 {className}</Text>
+            <Text style={styles.headerTitle}>{className}</Text>
           </View>
           <View style={styles.countBadge}>
             <Text style={styles.countText}>{members.length} thành viên</Text>
           </View>
         </View>
 
-        {/* Lời nhắn nhủ ấm áp */}
-        <View style={styles.introCard}>
-          <Text style={styles.introQuote}>
-            "Thầy cô ngày càng lớn tuổi, trí nhớ sẽ dần suy giảm nên các con thông cảm nhé ❤️"
-          </Text>
-          <Text style={styles.introSub}>
-            Lưu giữ hành trình học tập, sự nghiệp và nơi công tác của từng bạn lớp mình.
-          </Text>
-        </View>
-
-        {/* Ô tìm kiếm thông minh */}
-        <View style={styles.searchBox}>
-          <Text style={styles.searchIcon}>🔍</Text>
+        {/* Search Input Clean */}
+        <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="Tìm theo tên, ĐH, công ty, ngành nghề..."
+            placeholder="Tìm theo tên, nơi công tác, chuyên ngành, vị trí..."
             placeholderTextColor={theme.colors.textMuted}
             value={searchQuery}
             onChangeText={setSearchQuery}
           />
           {searchQuery.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Text style={styles.clearBtn}>✕</Text>
+            <TouchableOpacity onPress={() => setSearchQuery('')} style={styles.clearBtn}>
+              <Text style={styles.clearBtnText}>×</Text>
             </TouchableOpacity>
           )}
         </View>
 
-        {/* Filter tags */}
-        <View style={styles.filterRow}>
+        {/* Filter Pills Segmented Control */}
+        <View style={styles.filterBar}>
           <TouchableOpacity
-            style={[styles.filterChip, selectedFilter === 'all' && styles.filterChipActive]}
+            style={[styles.filterPill, selectedFilter === 'all' && styles.filterPillActive]}
             onPress={() => setSelectedFilter('all')}
           >
-            <Text
-              style={[
-                styles.filterChipText,
-                selectedFilter === 'all' && styles.filterChipTextActive,
-              ]}
-            >
+            <Text style={[styles.filterPillText, selectedFilter === 'all' && styles.filterPillTextActive]}>
               Tất cả ({members.length})
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.filterChip, selectedFilter === 'teacher' && styles.filterChipActive]}
+            style={[styles.filterPill, selectedFilter === 'teacher' && styles.filterPillActive]}
             onPress={() => setSelectedFilter('teacher')}
           >
-            <Text
-              style={[
-                styles.filterChipText,
-                selectedFilter === 'teacher' && styles.filterChipTextActive,
-              ]}
-            >
-              👩‍🏫 Thầy Cô ({members.filter(m => m.role === 'teacher').length})
+            <Text style={[styles.filterPillText, selectedFilter === 'teacher' && styles.filterPillTextActive]}>
+              Thầy Cô ({members.filter(m => m.role === 'teacher').length})
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.filterChip, selectedFilter === 'student' && styles.filterChipActive]}
+            style={[styles.filterPill, selectedFilter === 'student' && styles.filterPillActive]}
             onPress={() => setSelectedFilter('student')}
           >
-            <Text
-              style={[
-                styles.filterChipText,
-                selectedFilter === 'student' && styles.filterChipTextActive,
-              ]}
-            >
-              🎓 Bạn bè ({members.filter(m => m.role === 'student').length})
+            <Text style={[styles.filterPillText, selectedFilter === 'student' && styles.filterPillTextActive]}>
+              Thành viên ({members.filter(m => m.role === 'student').length})
             </Text>
           </TouchableOpacity>
         </View>
 
-        {/* Danh sách thành viên */}
+        {/* Members List */}
         <FlatList
           data={filteredMembers}
           keyExtractor={item => item.id}
@@ -153,9 +124,10 @@ export const MembersScreen: React.FC<Props> = ({
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <Text style={styles.emptyIcon}>🔍</Text>
-              <Text style={styles.emptyTitle}>Không tìm thấy thành viên phù hợp</Text>
-              <Text style={styles.emptySub}>Thử gõ từ khoá khác hoặc xoá bộ lọc xem sao nhé!</Text>
+              <Text style={styles.emptyTitle}>Không tìm thấy kết quả</Text>
+              <Text style={styles.emptySubtitle}>
+                Thử tìm với từ khóa khác như tên thành viên, công ty hoặc chuyên ngành.
+              </Text>
             </View>
           }
         />
@@ -171,126 +143,117 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
+    alignItems: 'flex-start',
+    marginBottom: theme.spacing.md,
   },
   headerSubtitle: {
-    fontSize: 12,
-    color: theme.colors.accentWarm,
-    fontWeight: '600',
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+    fontWeight: '500',
+    letterSpacing: 0.3,
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
   },
   headerTitle: {
-    fontSize: 22,
-    fontWeight: '800',
+    fontSize: theme.typography.sizes.hero,
+    fontWeight: '700',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.5,
+    marginTop: 2,
   },
   countBadge: {
-    backgroundColor: '#EBE2D5',
+    backgroundColor: theme.colors.surface,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    borderRadius: 12,
-  },
-  countText: {
-    fontSize: 12,
-    color: theme.colors.textSecondary,
-    fontWeight: '700',
-  },
-  introCard: {
-    backgroundColor: '#FFFBF2',
-    borderLeftWidth: 4,
-    borderLeftColor: theme.colors.accentWarm,
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#EFE7D8',
-  },
-  introQuote: {
-    fontSize: 12.5,
-    fontStyle: 'italic',
-    color: '#824831',
-    lineHeight: 17,
-  },
-  introSub: {
-    fontSize: 11,
-    color: theme.colors.textMuted,
-    marginTop: 3,
-  },
-  searchBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    height: 44,
+    borderRadius: theme.borderRadius.pill,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    marginBottom: 10,
   },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
+  countText: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textSecondary,
+    fontWeight: '600',
+  },
+  searchContainer: {
+    position: 'relative',
+    marginBottom: theme.spacing.md,
   },
   searchInput: {
-    flex: 1,
-    fontSize: 14,
+    backgroundColor: theme.colors.surface,
+    borderWidth: 1,
+    borderColor: theme.colors.inputBorder,
+    borderRadius: theme.borderRadius.md,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: 10,
+    fontSize: theme.typography.sizes.body,
     color: theme.colors.textPrimary,
+    ...theme.shadows.sm,
   },
   clearBtn: {
-    fontSize: 14,
-    color: theme.colors.textMuted,
-    padding: 4,
+    position: 'absolute',
+    right: 12,
+    top: 9,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: theme.colors.surfaceSubtle,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  filterRow: {
+  clearBtnText: {
+    fontSize: 16,
+    color: theme.colors.textSecondary,
+    fontWeight: '600',
+    lineHeight: 18,
+  },
+  filterBar: {
     flexDirection: 'row',
+    marginBottom: theme.spacing.md,
     gap: 8,
-    marginBottom: 12,
   },
-  filterChip: {
+  filterPill: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 20,
-    backgroundColor: '#EFECE6',
+    borderRadius: theme.borderRadius.pill,
+    backgroundColor: theme.colors.surface,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
   },
-  filterChipActive: {
+  filterPillActive: {
     backgroundColor: theme.colors.primary,
+    borderColor: theme.colors.primary,
   },
-  filterChipText: {
-    fontSize: 12,
-    fontWeight: '600',
+  filterPillText: {
+    fontSize: theme.typography.sizes.caption,
+    fontWeight: '500',
     color: theme.colors.textSecondary,
   },
-  filterChipTextActive: {
-    color: '#FFFFFF',
+  filterPillTextActive: {
+    color: theme.colors.textInverse,
+    fontWeight: '600',
   },
   listContent: {
-    paddingBottom: 24,
+    paddingBottom: theme.spacing.xxxl,
   },
   emptyContainer: {
+    paddingVertical: theme.spacing.xxxl,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 40,
-  },
-  emptyIcon: {
-    fontSize: 40,
-    marginBottom: 10,
   },
   emptyTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: theme.typography.sizes.heading,
+    fontWeight: '600',
     color: theme.colors.textPrimary,
+    marginBottom: 4,
   },
-  emptySub: {
-    fontSize: 12,
+  emptySubtitle: {
+    fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
-    marginTop: 4,
+    textAlign: 'center',
+    maxWidth: 280,
   },
 });

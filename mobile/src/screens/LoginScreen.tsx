@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
-  Alert,
+  Image,
 } from 'react-native';
 import { Member } from '../types';
 import { theme } from '../theme';
@@ -33,7 +33,6 @@ export const LoginScreen: React.FC<Props> = ({ members, onLoginSuccess }) => {
       return;
     }
 
-    // Match by username, phone, or email
     const found = members.find(
       m =>
         m.username?.toLowerCase() === userToTest ||
@@ -69,13 +68,14 @@ export const LoginScreen: React.FC<Props> = ({ members, onLoginSuccess }) => {
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
+          <Text style={styles.brandSubtitle}>Kỷ Niệm Niên Khóa 2016 - 2019</Text>
           <Text style={styles.appTitle}>Sổ Lưu Bút CT1619</Text>
-          <Text style={styles.appSubtitle}>Đăng nhập để vào trang kỷ yếu lớp học</Text>
+          <Text style={styles.appSubtitle}>Cổng thông tin danh bạ và lưu giữ kỷ niệm lớp học</Text>
         </View>
 
         {/* Form Card */}
         <View style={styles.card}>
-          <Text style={styles.cardTitle}>Xác Nhận Danh Tính</Text>
+          <Text style={styles.cardTitle}>Đăng Nhập Thành Viên</Text>
 
           {errorMessage ? (
             <View style={styles.errorBox}>
@@ -84,7 +84,7 @@ export const LoginScreen: React.FC<Props> = ({ members, onLoginSuccess }) => {
           ) : null}
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Tên đăng nhập / Số ĐT / Email</Text>
+            <Text style={styles.label}>Tài khoản / Số điện thoại / Email</Text>
             <TextInput
               style={styles.input}
               placeholder="VD: songquyen hoặc 0912200500"
@@ -99,72 +99,61 @@ export const LoginScreen: React.FC<Props> = ({ members, onLoginSuccess }) => {
             <Text style={styles.label}>Mật khẩu</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nhập mật khẩu (Mặc định: 123456)"
+              placeholder="Mật khẩu mặc định: 123456"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.loginButton}
-            onPress={() => handleLogin()}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.loginButtonText}>Đăng Nhập Vào Sổ Lưu Bút</Text>
+          <TouchableOpacity style={styles.primaryBtn} onPress={() => handleLogin()}>
+            <Text style={styles.primaryBtnText}>Vào Ứng Dụng</Text>
           </TouchableOpacity>
 
-          <View style={styles.dividerRow}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>HOẶC CHỌN TÊN BẠN</Text>
-            <View style={styles.dividerLine} />
-          </View>
-
+          {/* Quick Select Toggle */}
           <TouchableOpacity
-            style={styles.quickButton}
+            style={styles.quickToggleBtn}
             onPress={() => setShowQuickSelect(!showQuickSelect)}
-            activeOpacity={0.7}
           >
-            <Text style={styles.quickButtonText}>
-              {showQuickSelect ? 'Ẩn danh sách' : 'Chọn nhanh thành viên từ danh sách'}
+            <Text style={styles.quickToggleText}>
+              {showQuickSelect ? 'Ẩn danh sách chọn nhanh' : 'Chọn nhanh từ danh sách 24 thành viên'}
             </Text>
           </TouchableOpacity>
+
+          {showQuickSelect && (
+            <View style={styles.quickSelectList}>
+              <Text style={styles.quickSelectHeader}>Chọn tài khoản để trải nghiệm thử:</Text>
+              {members.map(m => (
+                <TouchableOpacity
+                  key={m.id}
+                  style={styles.memberRow}
+                  onPress={() => handleSelectMember(m)}
+                >
+                  {m.avatarUrl ? (
+                    <Image source={{ uri: m.avatarUrl }} style={styles.miniAvatar} />
+                  ) : (
+                    <View style={styles.miniAvatarFallback}>
+                      <Text style={styles.miniAvatarText}>
+                        {m.role === 'teacher' ? 'GV' : m.name.slice(0, 2).toUpperCase()}
+                      </Text>
+                    </View>
+                  )}
+                  <View style={styles.memberRowInfo}>
+                    <Text style={styles.memberRowName}>{m.name}</Text>
+                    <Text style={styles.memberRowRole}>
+                      {m.role === 'teacher' ? 'Giáo viên chủ nhiệm' : m.currentCompany || 'Cựu học sinh'}
+                    </Text>
+                  </View>
+                  <Text style={styles.arrowIcon}>→</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
         </View>
 
-        {/* Quick Selection List */}
-        {showQuickSelect && (
-          <View style={styles.quickListCard}>
-            <Text style={styles.quickListTitle}>Chọn Bạn Là Ai Trong Lớp:</Text>
-            {members.map(m => (
-              <TouchableOpacity
-                key={m.id}
-                style={styles.memberItem}
-                onPress={() => handleSelectMember(m)}
-              >
-                <View style={styles.memberAvatar}>
-                  <Text style={styles.memberAvatarText}>
-                    {m.role === 'teacher' ? 'GV' : m.name.slice(0, 2).toUpperCase()}
-                  </Text>
-                </View>
-                <View style={styles.memberInfo}>
-                  <Text style={styles.memberName}>
-                    {m.name} {m.role === 'teacher' && '(Giáo Viên)'}
-                  </Text>
-                  <Text style={styles.memberUser}>
-                    Username: {m.username} (Pass: 123456)
-                  </Text>
-                </View>
-                <Text style={styles.selectText}>Vào →</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-
-        <View style={styles.footerNote}>
-          <Text style={styles.footerText}>
-            Lớp CT1619 Niên khóa 2016 - 2019 • Offline-First Storage
-          </Text>
-        </View>
+        <Text style={styles.footerNotice}>
+          Hệ thống lưu trữ ngoại tuyến an toàn trên thiết bị (Offline-First).
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -176,31 +165,45 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   container: {
-    padding: theme.spacing.lg,
-    paddingTop: theme.spacing.xxxl,
-    justifyContent: 'center',
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.xxl,
+    paddingBottom: theme.spacing.xxxl,
+    maxWidth: 480,
+    width: '100%',
+    alignSelf: 'center',
   },
   header: {
     alignItems: 'center',
     marginBottom: theme.spacing.xl,
   },
+  brandSubtitle: {
+    fontSize: theme.typography.sizes.caption,
+    fontWeight: '600',
+    color: theme.colors.textMuted,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
   appTitle: {
-    fontSize: theme.typography.sizes.hero,
+    fontSize: 28,
     fontWeight: '700',
     color: theme.colors.textPrimary,
+    letterSpacing: -0.5,
+    marginTop: 4,
   },
   appSubtitle: {
     fontSize: theme.typography.sizes.body,
-    color: theme.colors.textMuted,
+    color: theme.colors.textSecondary,
+    textAlign: 'center',
     marginTop: 6,
+    maxWidth: 320,
   },
   card: {
-    backgroundColor: theme.colors.cardBackground,
-    borderRadius: theme.borderRadius.lg,
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.borderRadius.xl,
+    padding: theme.spacing.xl,
     borderWidth: 1,
     borderColor: theme.colors.cardBorder,
-    padding: theme.spacing.xl,
-    marginBottom: theme.spacing.lg,
+    ...theme.shadows.card,
   },
   cardTitle: {
     fontSize: theme.typography.sizes.heading,
@@ -209,15 +212,15 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.lg,
   },
   errorBox: {
-    backgroundColor: '#FEF2F2',
+    backgroundColor: '#FFF1F2',
     borderWidth: 1,
-    borderColor: '#FECACA',
+    borderColor: '#FECDD3',
+    padding: theme.spacing.md,
     borderRadius: theme.borderRadius.sm,
-    padding: theme.spacing.sm,
     marginBottom: theme.spacing.md,
   },
   errorText: {
-    color: '#DC2626',
+    color: '#9F1239',
     fontSize: theme.typography.sizes.caption,
   },
   inputGroup: {
@@ -225,119 +228,106 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textSecondary,
     fontWeight: '500',
+    color: theme.colors.textSecondary,
     marginBottom: 6,
   },
   input: {
     backgroundColor: theme.colors.inputBg,
     borderWidth: 1,
     borderColor: theme.colors.inputBorder,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: theme.borderRadius.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: 10,
     fontSize: theme.typography.sizes.body,
     color: theme.colors.textPrimary,
   },
-  loginButton: {
+  primaryBtn: {
     backgroundColor: theme.colors.primary,
     paddingVertical: 12,
-    borderRadius: theme.borderRadius.md,
+    borderRadius: theme.borderRadius.sm,
     alignItems: 'center',
     marginTop: theme.spacing.sm,
+    ...theme.shadows.sm,
   },
-  loginButtonText: {
-    color: '#FFFFFF',
+  primaryBtnText: {
     fontSize: theme.typography.sizes.body,
     fontWeight: '600',
+    color: theme.colors.textInverse,
   },
-  dividerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: theme.spacing.lg,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: theme.colors.divider,
-  },
-  dividerText: {
-    fontSize: theme.typography.sizes.small,
-    color: theme.colors.textMuted,
-    marginHorizontal: theme.spacing.sm,
-    fontWeight: '600',
-  },
-  quickButton: {
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    paddingVertical: 10,
-    borderRadius: theme.borderRadius.md,
+  quickToggleBtn: {
+    paddingVertical: theme.spacing.md,
     alignItems: 'center',
   },
-  quickButtonText: {
+  quickToggleText: {
     fontSize: theme.typography.sizes.caption,
-    color: theme.colors.textSecondary,
+    color: theme.colors.accentBlue,
     fontWeight: '500',
   },
-  quickListCard: {
-    backgroundColor: theme.colors.cardBackground,
-    borderRadius: theme.borderRadius.lg,
-    borderWidth: 1,
-    borderColor: theme.colors.cardBorder,
-    padding: theme.spacing.lg,
-    marginBottom: theme.spacing.lg,
+  quickSelectList: {
+    marginTop: theme.spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.divider,
+    paddingTop: theme.spacing.md,
   },
-  quickListTitle: {
-    fontSize: theme.typography.sizes.caption,
+  quickSelectHeader: {
+    fontSize: theme.typography.sizes.small,
     fontWeight: '600',
     color: theme.colors.textMuted,
-    marginBottom: theme.spacing.md,
     textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: theme.spacing.sm,
   },
-  memberItem: {
+  memberRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.divider,
   },
-  memberAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: theme.borderRadius.sm,
-    backgroundColor: theme.colors.surfaceSubtle,
-    alignItems: 'center',
+  miniAvatar: {
+    width: 34,
+    height: 34,
+    borderRadius: theme.borderRadius.full,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
+  },
+  miniAvatarFallback: {
+    width: 34,
+    height: 34,
+    borderRadius: theme.borderRadius.full,
+    backgroundColor: theme.colors.badgeStudentBg,
     justifyContent: 'center',
-    marginRight: theme.spacing.md,
+    alignItems: 'center',
+    marginRight: 10,
   },
-  memberAvatarText: {
-    fontSize: theme.typography.sizes.caption,
-    fontWeight: '600',
-    color: theme.colors.textPrimary,
+  miniAvatarText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: theme.colors.badgeStudentText,
   },
-  memberInfo: {
+  memberRowInfo: {
     flex: 1,
   },
-  memberName: {
+  memberRowName: {
     fontSize: theme.typography.sizes.body,
     fontWeight: '500',
     color: theme.colors.textPrimary,
   },
-  memberUser: {
-    fontSize: theme.typography.sizes.small,
-    color: theme.colors.textMuted,
-  },
-  selectText: {
-    fontSize: theme.typography.sizes.caption,
-    color: theme.colors.primary,
-    fontWeight: '600',
-  },
-  footerNote: {
-    alignItems: 'center',
-    marginVertical: theme.spacing.lg,
-  },
-  footerText: {
+  memberRowRole: {
     fontSize: theme.typography.sizes.caption,
     color: theme.colors.textMuted,
+  },
+  arrowIcon: {
+    fontSize: 14,
+    color: theme.colors.textMuted,
+    marginLeft: 6,
+  },
+  footerNotice: {
+    fontSize: theme.typography.sizes.caption,
+    color: theme.colors.textMuted,
+    textAlign: 'center',
+    marginTop: theme.spacing.xl,
   },
 });
